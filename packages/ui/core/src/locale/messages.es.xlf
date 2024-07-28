@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" datatype="plaintext" original="ng2.template" target-language="es-ES">
+  <file source-language="en" datatype="plaintext" original="ng2.template" target-language="es">
     <body>
       <trans-unit id="3307420368271433057" datatype="html" approved="yes">
         <source>
-           You have reached the limits of your current plan.    ⭐ to unlock more features. 
+           You have reached the limits of your current plan.    ⭐ to unlock more features.
           <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;ap-font-bold&quot;&gt;"/>
           <x id="INTERPOLATION" equiv-text="{{teamMemebersNotes[data.projectType]}}"/>
           <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
@@ -14,7 +14,7 @@
           <context context-type="linenumber">17,20</context>
         </context-group>
         <target state="final">
-           Alcanzaste los límites de tu plan actual. ⭐ para desbloquear más características. 
+           Alcanzaste los límites de tu plan actual. ⭐ para desbloquear más características.
           <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;ap-font-bold&quot;&gt;"/>
           <x id="INTERPOLATION" equiv-text="{{teamMemebersNotes[data.projectType]}}"/>
           <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
@@ -604,7 +604,7 @@
       </trans-unit>
       <trans-unit id="3720371318294752429" datatype="html" approved="yes">
         <source>
-          Delete 
+          Delete
 
           <x id="INTERPOLATION" equiv-text="{{data.entityName}}"/>
         </source>
@@ -613,14 +613,14 @@
           <context context-type="linenumber">1,2</context>
         </context-group>
         <target state="final">
-          Eliminar 
+          Eliminar
 
           <x id="INTERPOLATION" equiv-text="{{data.entityName}}"/>
         </target>
       </trans-unit>
       <trans-unit id="6560405483623875453" datatype="html" approved="yes">
         <source>
-           Type DELETE and press confirm to continue. 
+           Type DELETE and press confirm to continue.
           <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>
           <x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/>
         </source>
@@ -629,7 +629,7 @@
           <context context-type="linenumber">7,9</context>
         </context-group>
         <target state="final">
-           Escribe DELETE y presiona Confirmar para continuar. 
+           Escribe DELETE y presiona Confirmar para continuar.
           <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>
           <x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/>
         </target>
@@ -752,7 +752,7 @@
       </trans-unit>
       <trans-unit id="461643095934196481" datatype="html" approved="yes">
         <source>
-          Please upgrade your plan to unlock this feature. 
+          Please upgrade your plan to unlock this feature.
           <x id="START_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;svg-icon src=&quot;/assets/img/custom/lock.svg&quot; class=&quot;ap-w-[20px] ap-h-[20px] ap-fill-body&quot; [applyClass]=&quot;true&quot;&gt;"/>
           <x id="CLOSE_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;/svg-icon&gt;"/>
         </source>
@@ -761,7 +761,7 @@
           <context context-type="linenumber">3,5</context>
         </context-group>
         <target state="final">
-          Por favor, actualiza tu plan para desbloquear esta función. 
+          Por favor, actualiza tu plan para desbloquear esta función.
           <x id="START_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;svg-icon src=&quot;/assets/img/custom/lock.svg&quot; class=&quot;ap-w-[20px] ap-h-[20px] ap-fill-body&quot; [applyClass]=&quot;true&quot;&gt;"/>
           <x id="CLOSE_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;/svg-icon&gt;"/>
         </target>
@@ -776,7 +776,7 @@
       </trans-unit>
       <trans-unit id="9014114747424049495" datatype="html" approved="yes">
         <source>
-           Upgrade 
+           Upgrade
           <x id="START_TAG_DIV" ctype="x-div" equiv-text="&lt;div class=&quot;ap-flex ap-gap-2&quot;&gt;"/>
           <x id="START_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;svg-icon src=&quot;/assets/img/custom/upgrade.svg&quot; class=&quot;ap-w-[20px] ap-h-[20px] ap-fill-white&quot;&#10;                    [applyClass]=&quot;true&quot;&gt;"/>
           <x id="CLOSE_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;/svg-icon&gt;"/>
@@ -787,7 +787,7 @@
           <context context-type="linenumber">11,16</context>
         </context-group>
         <target state="final">
-           Actualizar 
+           Actualizar
           <x id="START_TAG_DIV" ctype="x-div" equiv-text="&lt;div class=&quot;ap-flex ap-gap-2&quot;&gt;"/>
           <x id="START_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;svg-icon src=&quot;/assets/img/custom/upgrade.svg&quot; class=&quot;ap-w-[20px] ap-h-[20px] ap-fill-white&quot;&amp;#10;                    [applyClass]=&quot;true&quot;&gt;"/>
           <x id="CLOSE_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;/svg-icon&gt;"/>
@@ -1158,7 +1158,7 @@
       </trans-unit>
       <trans-unit id="9097289685105179814" datatype="html" approved="yes">
         <source>
-           Email is required  Email is invalid 
+           Email is required  Email is invalid
           <x id="START_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="-container *ngIf=&quot;emailFormControl.hasError('required')&quot;&gt;"/>
           <x id="CLOSE_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;/ng-container&gt;"/>
           <x id="START_TAG_NG_CONTAINER_1" ctype="x-ng_container_1" equiv-text="&lt;ng-container *ngIf=&quot;emailFormControl.hasError('email')&quot;&gt;"/>
@@ -1169,7 +1169,7 @@
           <context context-type="linenumber">12,20</context>
         </context-group>
         <target state="final">
-           El email es requerido. El email es inválido 
+           El email es requerido. El email es inválido
           <x id="START_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="-container *ngIf=&quot;emailFormControl.hasError('required')&quot;&gt;"/>
           <x id="CLOSE_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;/ng-container&gt;"/>
           <x id="START_TAG_NG_CONTAINER_1" ctype="x-ng_container_1" equiv-text="&lt;ng-container *ngIf=&quot;emailFormControl.hasError('email')&quot;&gt;"/>
@@ -1624,7 +1624,7 @@
       </trans-unit>
       <trans-unit id="3805341172871384186" datatype="html" approved="yes">
         <source>
-           Complete  step 
+           Complete  step
           <x id="INTERPOLATION" equiv-text="{{numOfInvalidSteps}}"/>
           <x id="INTERPOLATION_1" equiv-text="{{numOfInvalidSteps &gt; 1 ? 's' : ''}}"/>
         </source>
@@ -1633,7 +1633,7 @@
           <context context-type="linenumber">5,7</context>
         </context-group>
         <target state="final">
-           Completar paso 
+           Completar paso
           <x id="INTERPOLATION" equiv-text="{{numOfInvalidSteps}}"/>
           <x id="INTERPOLATION_1" equiv-text="{{numOfInvalidSteps &gt; 1 ? 's' : ''}}"/>
         </target>
@@ -1930,7 +1930,7 @@
       </trans-unit>
       <trans-unit id="4578163876314196724" datatype="html" approved="yes">
         <source>
-           Describe the path to the property using JSON format 
+           Describe the path to the property using JSON format
           <x id="START_PARAGRAPH" ctype="x-p" equiv-text="&lt;p&gt;"/>
           <x id="INTERPOLATION" equiv-text="{{data.placeHolder}}"/>
           <x id="CLOSE_PARAGRAPH" ctype="x-p" equiv-text="&lt;/p&gt;"/>
@@ -1940,7 +1940,7 @@
           <context context-type="linenumber">4,6</context>
         </context-group>
         <target state="final">
-           Describe la ruta a la propiedad usando formato JSON 
+           Describe la ruta a la propiedad usando formato JSON
           <x id="START_PARAGRAPH" ctype="x-p" equiv-text="&lt;p&gt;"/>
           <x id="INTERPOLATION" equiv-text="{{data.placeHolder}}"/>
           <x id="CLOSE_PARAGRAPH" ctype="x-p" equiv-text="&lt;/p&gt;"/>
@@ -1956,7 +1956,7 @@
       </trans-unit>
       <trans-unit id="4407837587845744851" datatype="html" approved="yes">
         <source>
-           Path must begin with  
+           Path must begin with
           <x id="INTERPOLATION" equiv-text="{{data.stepName}}"/>
         </source>
         <context-group purpose="location">
@@ -1964,7 +1964,7 @@
           <context context-type="linenumber">16,18</context>
         </context-group>
         <target state="final">
-           La ruta debe empezar con  
+           La ruta debe empezar con
           <x id="INTERPOLATION" equiv-text="{{data.stepName}}"/>
         </target>
       </trans-unit>
@@ -1978,7 +1978,7 @@
       </trans-unit>
       <trans-unit id="2382599479144636387" datatype="html" approved="yes">
         <source>
-          result:  
+          result:
           <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;ap-transition-all ap-text-primary&quot; [matTooltip]=&quot;'' + result.value || ''&quot;&gt;"/>
           <x id="INTERPOLATION"/>
           <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
@@ -1988,7 +1988,7 @@
           <context context-type="linenumber">37,40</context>
         </context-group>
         <target state="final">
-          resultado:  
+          resultado:
           <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;ap-transition-all ap-text-primary&quot; [matTooltip]=&quot;'' + result.value || ''&quot;&gt;"/>
           <x id="INTERPOLATION"/>
           <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
@@ -2304,7 +2304,7 @@
       </trans-unit>
       <trans-unit id="3980254400386807047" datatype="html" approved="yes">
         <source>
-          Warning 
+          Warning
           <x id="START_TAG_DIV_1" ctype="x-div_1" equiv-text="&lt;div class=&quot;ap-inline-block ap-h-[36px]  &quot;&gt;"/>
           <x id="START_TAG_DIV" ctype="x-div" equiv-text="&lt;div class=&quot;ap-flex ap-gap-2&#10;        ap-items-center&quot;&gt;"/>
           <x id="START_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;svg-icon [svgStyle]=&quot;{ width: '20px', height: '20px' }&quot; src=&quot;assets/img/custom/warn.svg&quot;&gt;"/>
@@ -2438,7 +2438,7 @@ Precaución
       </trans-unit>
       <trans-unit id="2679053481868259036" datatype="html" approved="yes">
         <source>
-           View 
+           View
           <x id="START_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="g-icon src=&quot;assets/img/custom/eye.svg&quot; class=&quot;ap-w-[20px] ap-h-[20px]&quot;&#10;                                    [applyClass]=&quot;true&quot;&gt;"/>
           <x id="CLOSE_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="View"/>
         </source>
@@ -2454,7 +2454,7 @@ Precaución
       </trans-unit>
       <trans-unit id="7079179593648311012" datatype="html" approved="yes">
         <source>
-           Use as draft 
+           Use as draft
           <x id="START_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="g-icon src=&quot;assets/img/custom/pencil-underline.svg&quot; class=&quot;ap-w-[20px] ap-h-[20px]&quot;&#10;                                    [applyClass]=&quot;true&quot;&gt;"/>
           <x id="CLOSE_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="Use as draf"/>
         </source>
@@ -2473,8 +2473,8 @@ Precaución
           If you are expecting a reply from this webhook, append &lt;b&gt;/sync&lt;/b&gt; to the URL.&lt;br&gt; &lt;br&gt;
                   In that case, you will also have to add an &lt;b&gt;HTTP step&lt;/b&gt;  with return response to the end of your flow.&lt;br&gt; &lt;br&gt;
                   **If the flow takes more than 30 seconds, it will give a 408 Request Timeout response.**&lt;br&gt;
-                  
-                  
+
+
           <x id="INTERPOLATION" equiv-text="{{ (edition$ | async) === ApEdition.CLOUD ? '' : 'To change this, set the **AP_WEBHOOK_TIMEOUT_SECONDS** to desired number.' }}"/>
         </source>
         <context-group purpose="location">
@@ -2485,8 +2485,8 @@ Precaución
           Si estás esperando una respuesta de este webhook, agrega &lt;b&gt;/sync&lt;/b&gt; a la URL.&lt;br&gt; &lt;br&gt;
                   En ese caso, también tendrás que agregar un &lt;b&gt;paso HTTP&lt;/b&gt;  que devuelva la respuesta al final de tu flujo.&lt;br&gt; &lt;br&gt;
                   **Si el flujo toma más de 30 segundos en ejecutarse, se devolverá una respuesta de 408 Request Timeout.**&lt;br&gt;
-                  
-                  
+
+
           <x id="INTERPOLATION" equiv-text="{{ (edition$ | async) === ApEdition.CLOUD ? '' : 'To change this, set the **AP_WEBHOOK_TIMEOUT_SECONDS** to desired number.' }}"/>
         </target>
       </trans-unit>
@@ -3470,7 +3470,7 @@ Precaución
       </trans-unit>
       <trans-unit id="8417917245707164827" datatype="html" approved="yes">
         <source>
-          Edit 
+          Edit
           <x id="PH" equiv-text="this.data.repo.remoteUrl"/>
         </source>
         <context-group purpose="location">
@@ -3478,7 +3478,7 @@ Precaución
           <context context-type="linenumber">41</context>
         </context-group>
         <target state="final">
-          Editar 
+          Editar
           <x id="PH" equiv-text="this.data.repo.remoteUrl"/>
         </target>
       </trans-unit>
@@ -3505,7 +3505,7 @@ Precaución
       </trans-unit>
       <trans-unit id="7481849508944321565" datatype="html" approved="yes">
         <source>
-           All the flows in  will be replaced with the flows from the Git repository. 
+           All the flows in  will be replaced with the flows from the Git repository.
           <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>
           <x id="INTERPOLATION"/>
           <x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="will be repla"/>
@@ -3515,7 +3515,7 @@ Precaución
           <context context-type="linenumber">13,15</context>
         </context-group>
         <target state="final">
-           Todos los flujos serán reemplazados por los flujos del repositorio Git. 
+           Todos los flujos serán reemplazados por los flujos del repositorio Git.
           <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>
           <x id="INTERPOLATION"/>
           <x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="will be repla"/>
@@ -3553,7 +3553,7 @@ Precaución
       </trans-unit>
       <trans-unit id="9202571177288431174" datatype="html" approved="yes">
         <source>
-           All the flows in the Git repository will be replaced with the flows in . 
+           All the flows in the Git repository will be replaced with the flows in .
           <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>
           <x id="INTERPOLATION"/>
           <x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="."/>
@@ -3563,7 +3563,7 @@ Precaución
           <context context-type="linenumber">13,15</context>
         </context-group>
         <target state="final">
-           Todos los flujos en el repositorio Git serán reemplazados por los flujos en . 
+           Todos los flujos en el repositorio Git serán reemplazados por los flujos en .
           <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>
           <x id="INTERPOLATION"/>
           <x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="."/>
@@ -3875,7 +3875,7 @@ Precaución
       </trans-unit>
       <trans-unit id="2999814213294266636" datatype="html" approved="yes">
         <source>
-          Runs 
+          Runs
           <x id="PH" equiv-text="cronstrue&#10;              .toString(cronExpression, { locale: this.locale })&#10;              .toLocaleLowerCase()"/>
         </source>
         <context-group purpose="location">
@@ -4159,7 +4159,7 @@ Precaución
       </trans-unit>
       <trans-unit id="7511518849296799979" datatype="html" approved="yes">
         <source>
-           Connected Repo:  Branch: 
+           Connected Repo:  Branch:
           <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>
           <x id="INTERPOLATION" equiv-text="eUrl}}"/>
           <x id="CLOSE_BOLD_TEXT" ctype="x-b"/>
@@ -4173,7 +4173,7 @@ Precaución
           <context context-type="linenumber">30,33</context>
         </context-group>
         <target state="final">
-           Repositorio conectado:  Branch: 
+           Repositorio conectado:  Branch:
           <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>
           <x id="INTERPOLATION" equiv-text="eUrl}}"/>
           <x id="CLOSE_BOLD_TEXT" ctype="x-b"/>
