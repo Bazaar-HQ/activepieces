@@ -69,6 +69,12 @@ RUN apt-get update && apt-get install -y nginx gettext
 # Copy Nginx configuration template
 COPY packages/ui/core/nginx.standard.conf /etc/nginx/nginx.conf
 
+
+RUN curl https://get.acme.sh | sh -s email=sebto@brightdata.com.au
+RUN acme.sh --issue nginx -d flows.bazaar.tech -w /usr/share/nginx/html
+COPY fullchain.pem /etc/nginx/ssl/fullchain.pem
+COPY privkey.pem /etc/nginx/ssl/privkey.pem
+
 COPY --from=build /usr/src/app/LICENSE .
 
 RUN mkdir -p /usr/src/app/dist/packages/server/
@@ -82,7 +88,7 @@ COPY --from=build /usr/src/app/dist/packages/shared/ /usr/src/app/dist/packages/
 
 RUN cd /usr/src/app/dist/packages/server/api/ && npm install --production --force
 
-# 
+#
 # Copy Output files to appropriate directory from build stage
 COPY --from=build /usr/src/app/packages packages
 

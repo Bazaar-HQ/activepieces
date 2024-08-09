@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" datatype="plaintext" original="ng2.template" target-language="pt-BR">
+  <file source-language="en" datatype="plaintext" original="ng2.template" target-language="pt">
     <body>
       <trans-unit id="3307420368271433057" datatype="html" approved="yes">
         <source>
-           You have reached the limits of your current plan.    ⭐ to unlock more features. 
+           You have reached the limits of your current plan.    ⭐ to unlock more features.
           <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;ap-font-bold&quot;&gt;"/>
           <x id="INTERPOLATION" equiv-text="{{teamMemebersNotes[data.projectType]}}"/>
           <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
@@ -14,7 +14,7 @@
           <context context-type="linenumber">17,20</context>
         </context-group>
         <target state="final">
-           Você atingiu os limites do plano atual.   ⭐ para desbloquear mais recursos. 
+           Você atingiu os limites do plano atual.   ⭐ para desbloquear mais recursos.
           <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;ap-font-bold&quot;&gt;"/>
           <x id="INTERPOLATION" equiv-text="{{teamMemebersNotes[data.projectType]}}"/>
           <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
@@ -603,7 +603,7 @@
       </trans-unit>
       <trans-unit id="3720371318294752429" datatype="html" approved="yes">
         <source>
-          Delete 
+          Delete
 
           <x id="INTERPOLATION" equiv-text="{{data.entityName}}"/>
         </source>
@@ -617,7 +617,7 @@
       </trans-unit>
       <trans-unit id="6560405483623875453" datatype="html" approved="yes">
         <source>
-           Type DELETE and press confirm to continue. 
+           Type DELETE and press confirm to continue.
           <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>
           <x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/>
         </source>
@@ -628,7 +628,7 @@
         <target state="final">             Digite DELETE e pressione enter para continuar.
                   <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>
           <x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="&lt;/b&gt;"/>
-        
+
 </target>
       </trans-unit>
       <trans-unit id="2394434532665685744" datatype="html" approved="yes">
@@ -749,7 +749,7 @@
       </trans-unit>
       <trans-unit id="461643095934196481" datatype="html">
         <source>
-          Please upgrade your plan to unlock this feature. 
+          Please upgrade your plan to unlock this feature.
           <x id="START_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;svg-icon src=&quot;/assets/img/custom/lock.svg&quot; class=&quot;ap-w-[20px] ap-h-[20px] ap-fill-body&quot; [applyClass]=&quot;true&quot;&gt;"/>
           <x id="CLOSE_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;/svg-icon&gt;"/>
         </source>
@@ -758,7 +758,7 @@
           <context context-type="linenumber">3,5</context>
         </context-group>
         <target state="needs-translation">
-          Please upgrade your plan to unlock this feature. 
+          Please upgrade your plan to unlock this feature.
           <x id="START_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;svg-icon src=&quot;/assets/img/custom/lock.svg&quot; class=&quot;ap-w-[20px] ap-h-[20px] ap-fill-body&quot; [applyClass]=&quot;true&quot;&gt;"/>
           <x id="CLOSE_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;/svg-icon&gt;"/>
         </target>
@@ -773,7 +773,7 @@
       </trans-unit>
       <trans-unit id="9014114747424049495" datatype="html">
         <source>
-           Upgrade 
+           Upgrade
           <x id="START_TAG_DIV" ctype="x-div" equiv-text="&lt;div class=&quot;ap-flex ap-gap-2&quot;&gt;"/>
           <x id="START_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;svg-icon src=&quot;/assets/img/custom/upgrade.svg&quot; class=&quot;ap-w-[20px] ap-h-[20px] ap-fill-white&quot;&#10;                    [applyClass]=&quot;true&quot;&gt;"/>
           <x id="CLOSE_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;/svg-icon&gt;"/>
@@ -784,7 +784,7 @@
           <context context-type="linenumber">11,16</context>
         </context-group>
         <target state="needs-translation">
-           Upgrade 
+           Upgrade
           <x id="START_TAG_DIV" ctype="x-div" equiv-text="&lt;div class=&quot;ap-flex ap-gap-2&quot;&gt;"/>
           <x id="START_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;svg-icon src=&quot;/assets/img/custom/upgrade.svg&quot; class=&quot;ap-w-[20px] ap-h-[20px] ap-fill-white&quot;&amp;#10;                    [applyClass]=&quot;true&quot;&gt;"/>
           <x id="CLOSE_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;/svg-icon&gt;"/>
@@ -1155,7 +1155,7 @@
       </trans-unit>
       <trans-unit id="9097289685105179814" datatype="html" approved="yes">
         <source>
-           Email is required  Email is invalid 
+           Email is required  Email is invalid
           <x id="START_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="-container *ngIf=&quot;emailFormControl.hasError('required')&quot;&gt;"/>
           <x id="CLOSE_TAG_NG_CONTAINER" ctype="x-ng_container" equiv-text="&lt;/ng-container&gt;"/>
           <x id="START_TAG_NG_CONTAINER_1" ctype="x-ng_container_1" equiv-text="&lt;ng-container *ngIf=&quot;emailFormControl.hasError('email')&quot;&gt;"/>
@@ -1620,7 +1620,7 @@
       </trans-unit>
       <trans-unit id="3805341172871384186" datatype="html" approved="yes">
         <source>
-           Complete  step 
+           Complete  step
           <x id="INTERPOLATION" equiv-text="{{numOfInvalidSteps}}"/>
           <x id="INTERPOLATION_1" equiv-text="{{numOfInvalidSteps &gt; 1 ? 's' : ''}}"/>
         </source>
@@ -1923,7 +1923,7 @@ Por favor, informe o nome do pacote NPM
       </trans-unit>
       <trans-unit id="4578163876314196724" datatype="html" approved="yes">
         <source>
-           Describe the path to the property using JSON format 
+           Describe the path to the property using JSON format
           <x id="START_PARAGRAPH" ctype="x-p" equiv-text="&lt;p&gt;"/>
           <x id="INTERPOLATION" equiv-text="{{data.placeHolder}}"/>
           <x id="CLOSE_PARAGRAPH" ctype="x-p" equiv-text="&lt;/p&gt;"/>
@@ -1933,7 +1933,7 @@ Por favor, informe o nome do pacote NPM
           <context context-type="linenumber">4,6</context>
         </context-group>
         <target state="final">
-           Descreva o caminho para a propriedade usando o formato JSON 
+           Descreva o caminho para a propriedade usando o formato JSON
           <x id="START_PARAGRAPH" ctype="x-p" equiv-text="&lt;p&gt;"/>
           <x id="INTERPOLATION" equiv-text="{{data.placeHolder}}"/>
           <x id="CLOSE_PARAGRAPH" ctype="x-p" equiv-text="&lt;/p&gt;"/>
@@ -1949,7 +1949,7 @@ Por favor, informe o nome do pacote NPM
       </trans-unit>
       <trans-unit id="4407837587845744851" datatype="html" approved="yes">
         <source>
-           Path must begin with  
+           Path must begin with
           <x id="INTERPOLATION" equiv-text="{{data.stepName}}"/>
         </source>
         <context-group purpose="location">
@@ -1957,7 +1957,7 @@ Por favor, informe o nome do pacote NPM
           <context context-type="linenumber">16,18</context>
         </context-group>
         <target state="final">
-           O caminho deve começar com  
+           O caminho deve começar com
           <x id="INTERPOLATION" equiv-text="{{data.stepName}}"/>
         </target>
       </trans-unit>
@@ -1971,7 +1971,7 @@ Por favor, informe o nome do pacote NPM
       </trans-unit>
       <trans-unit id="2382599479144636387" datatype="html" approved="yes">
         <source>
-          result:  
+          result:
           <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;ap-transition-all ap-text-primary&quot; [matTooltip]=&quot;'' + result.value || ''&quot;&gt;"/>
           <x id="INTERPOLATION"/>
           <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
@@ -1981,7 +1981,7 @@ Por favor, informe o nome do pacote NPM
           <context context-type="linenumber">37,40</context>
         </context-group>
         <target state="final">
-          resultado:  
+          resultado:
           <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span class=&quot;ap-transition-all ap-text-primary&quot; [matTooltip]=&quot;'' + result.value || ''&quot;&gt;"/>
           <x id="INTERPOLATION"/>
           <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/>
@@ -2297,7 +2297,7 @@ Por favor, informe o nome do pacote NPM
       </trans-unit>
       <trans-unit id="3980254400386807047" datatype="html">
         <source>
-          Warning 
+          Warning
           <x id="START_TAG_DIV_1" ctype="x-div_1" equiv-text="&lt;div class=&quot;ap-inline-block ap-h-[36px]  &quot;&gt;"/>
           <x id="START_TAG_DIV" ctype="x-div" equiv-text="&lt;div class=&quot;ap-flex ap-gap-2&#10;        ap-items-center&quot;&gt;"/>
           <x id="START_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;svg-icon [svgStyle]=&quot;{ width: '20px', height: '20px' }&quot; src=&quot;assets/img/custom/warn.svg&quot;&gt;"/>
@@ -2310,7 +2310,7 @@ Por favor, informe o nome do pacote NPM
           <context context-type="linenumber">2,7</context>
         </context-group>
         <target state="needs-translation">
-          Warning 
+          Warning
           <x id="START_TAG_DIV_1" ctype="x-div_1" equiv-text="&lt;div class=&quot;ap-inline-block ap-h-[36px]  &quot;&gt;"/>
           <x id="START_TAG_DIV" ctype="x-div" equiv-text="&lt;div class=&quot;ap-flex ap-gap-2&amp;#10;        ap-items-center&quot;&gt;"/>
           <x id="START_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="&lt;svg-icon [svgStyle]=&quot;{ width: '20px', height: '20px' }&quot; src=&quot;assets/img/custom/warn.svg&quot;&gt;"/>
@@ -2431,7 +2431,7 @@ Por favor, informe o nome do pacote NPM
       </trans-unit>
       <trans-unit id="2679053481868259036" datatype="html">
         <source>
-           View 
+           View
           <x id="START_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="g-icon src=&quot;assets/img/custom/eye.svg&quot; class=&quot;ap-w-[20px] ap-h-[20px]&quot;&#10;                                    [applyClass]=&quot;true&quot;&gt;"/>
           <x id="CLOSE_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="View"/>
         </source>
@@ -2440,14 +2440,14 @@ Por favor, informe o nome do pacote NPM
           <context context-type="linenumber">47,49</context>
         </context-group>
         <target state="needs-translation">
-           View 
+           View
           <x id="START_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="g-icon src=&quot;assets/img/custom/eye.svg&quot; class=&quot;ap-w-[20px] ap-h-[20px]&quot;&amp;#10;                                    [applyClass]=&quot;true&quot;&gt;"/>
           <x id="CLOSE_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="View"/>
         </target>
       </trans-unit>
       <trans-unit id="7079179593648311012" datatype="html">
         <source>
-           Use as draft 
+           Use as draft
           <x id="START_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="g-icon src=&quot;assets/img/custom/pencil-underline.svg&quot; class=&quot;ap-w-[20px] ap-h-[20px]&quot;&#10;                                    [applyClass]=&quot;true&quot;&gt;"/>
           <x id="CLOSE_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="Use as draf"/>
         </source>
@@ -2456,7 +2456,7 @@ Por favor, informe o nome do pacote NPM
           <context context-type="linenumber">54,56</context>
         </context-group>
         <target state="needs-translation">
-           Use as draft 
+           Use as draft
           <x id="START_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="g-icon src=&quot;assets/img/custom/pencil-underline.svg&quot; class=&quot;ap-w-[20px] ap-h-[20px]&quot;&amp;#10;                                    [applyClass]=&quot;true&quot;&gt;"/>
           <x id="CLOSE_TAG_SVG_ICON" ctype="x-svg_icon" equiv-text="Use as draf"/>
         </target>
@@ -2466,8 +2466,8 @@ Por favor, informe o nome do pacote NPM
           If you are expecting a reply from this webhook, append &lt;b&gt;/sync&lt;/b&gt; to the URL.&lt;br&gt; &lt;br&gt;
                   In that case, you will also have to add an &lt;b&gt;HTTP step&lt;/b&gt;  with return response to the end of your flow.&lt;br&gt; &lt;br&gt;
                   **If the flow takes more than 30 seconds, it will give a 408 Request Timeout response.**&lt;br&gt;
-                  
-                  
+
+
           <x id="INTERPOLATION" equiv-text="{{ (edition$ | async) === ApEdition.CLOUD ? '' : 'To change this, set the **AP_WEBHOOK_TIMEOUT_SECONDS** to desired number.' }}"/>
         </source>
         <context-group purpose="location">
@@ -2478,8 +2478,8 @@ Por favor, informe o nome do pacote NPM
           If you are expecting a reply from this webhook, append &lt;b&gt;/sync&lt;/b&gt; to the URL.&lt;br&gt; &lt;br&gt;
                   In that case, you will also have to add an &lt;b&gt;HTTP step&lt;/b&gt;  with return response to the end of your flow.&lt;br&gt; &lt;br&gt;
                   **If the flow takes more than 30 seconds, it will give a 408 Request Timeout response.**&lt;br&gt;
-                  
-                  
+
+
           <x id="INTERPOLATION" equiv-text="{{ (edition$ | async) === ApEdition.CLOUD ? '' : 'To change this, set the **AP_WEBHOOK_TIMEOUT_SECONDS** to desired number.' }}"/>
         </target>
       </trans-unit>
@@ -3463,7 +3463,7 @@ Por favor, informe o nome do pacote NPM
       </trans-unit>
       <trans-unit id="8417917245707164827" datatype="html">
         <source>
-          Edit 
+          Edit
           <x id="PH" equiv-text="this.data.repo.remoteUrl"/>
         </source>
         <context-group purpose="location">
@@ -3471,7 +3471,7 @@ Por favor, informe o nome do pacote NPM
           <context context-type="linenumber">41</context>
         </context-group>
         <target state="needs-translation">
-          Edit 
+          Edit
           <x id="PH" equiv-text="this.data.repo.remoteUrl"/>
         </target>
       </trans-unit>
@@ -3499,7 +3499,7 @@ Por favor, informe o nome do pacote NPM
       </trans-unit>
       <trans-unit id="7481849508944321565" datatype="html">
         <source>
-           All the flows in  will be replaced with the flows from the Git repository. 
+           All the flows in  will be replaced with the flows from the Git repository.
           <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>
           <x id="INTERPOLATION"/>
           <x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="will be repla"/>
@@ -3509,7 +3509,7 @@ Por favor, informe o nome do pacote NPM
           <context context-type="linenumber">13,15</context>
         </context-group>
         <target state="needs-translation">
-           All the flows in  will be replaced with the flows from the Git repository. 
+           All the flows in  will be replaced with the flows from the Git repository.
           <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>
           <x id="INTERPOLATION"/>
           <x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="will be repla"/>
@@ -3547,7 +3547,7 @@ Por favor, informe o nome do pacote NPM
       </trans-unit>
       <trans-unit id="9202571177288431174" datatype="html">
         <source>
-           All the flows in the Git repository will be replaced with the flows in . 
+           All the flows in the Git repository will be replaced with the flows in .
           <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>
           <x id="INTERPOLATION"/>
           <x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="."/>
@@ -3557,7 +3557,7 @@ Por favor, informe o nome do pacote NPM
           <context context-type="linenumber">13,15</context>
         </context-group>
         <target state="needs-translation">
-           All the flows in the Git repository will be replaced with the flows in . 
+           All the flows in the Git repository will be replaced with the flows in .
           <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>
           <x id="INTERPOLATION"/>
           <x id="CLOSE_BOLD_TEXT" ctype="x-b" equiv-text="."/>
@@ -3869,7 +3869,7 @@ Por favor, informe o nome do pacote NPM
       </trans-unit>
       <trans-unit id="2999814213294266636" datatype="html">
         <source>
-          Runs 
+          Runs
           <x id="PH" equiv-text="cronstrue&#10;              .toString(cronExpression, { locale: this.locale })&#10;              .toLocaleLowerCase()"/>
         </source>
         <context-group purpose="location">
@@ -3877,7 +3877,7 @@ Por favor, informe o nome do pacote NPM
           <context context-type="linenumber">204,206</context>
         </context-group>
         <target state="needs-translation">
-          Runs 
+          Runs
           <x id="PH" equiv-text="cronstrue&amp;#10;              .toString(cronExpression, { locale: this.locale })&amp;#10;              .toLocaleLowerCase()"/>
         </target>
       </trans-unit>
@@ -4153,7 +4153,7 @@ Por favor, informe o nome do pacote NPM
       </trans-unit>
       <trans-unit id="7511518849296799979" datatype="html">
         <source>
-           Connected Repo:  Branch: 
+           Connected Repo:  Branch:
           <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>
           <x id="INTERPOLATION" equiv-text="eUrl}}"/>
           <x id="CLOSE_BOLD_TEXT" ctype="x-b"/>
@@ -4167,7 +4167,7 @@ Por favor, informe o nome do pacote NPM
           <context context-type="linenumber">30,33</context>
         </context-group>
         <target state="needs-translation">
-           Connected Repo:  Branch: 
+           Connected Repo:  Branch:
           <x id="START_BOLD_TEXT" ctype="x-b" equiv-text="&lt;b&gt;"/>
           <x id="INTERPOLATION" equiv-text="eUrl}}"/>
           <x id="CLOSE_BOLD_TEXT" ctype="x-b"/>
