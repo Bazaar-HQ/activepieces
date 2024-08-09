@@ -71,7 +71,7 @@ COPY packages/ui/core/nginx.standard.conf /etc/nginx/nginx.conf
 
 
 RUN curl https://get.acme.sh | sh -s email=sebto@brightdata.com.au
-RUN acme.sh --issue nginx -d flows.bazaar.tech -w /usr/share/nginx/html
+RUN ~/.acme.sh/acme.sh --issue nginx -d flows.bazaar.tech -w /usr/share/nginx/html
 
 COPY --from=build /usr/src/app/LICENSE .
 
