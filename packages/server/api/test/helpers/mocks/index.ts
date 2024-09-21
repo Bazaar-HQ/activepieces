@@ -19,6 +19,7 @@ import {
     assertNotNullOrUndefined,
     File,
     FileCompression,
+    FileLocation,
     FileType,
     FilteredPieceBehavior,
     Flow,
@@ -120,6 +121,7 @@ export const createMockPlan = (plan?: Partial<ProjectPlan>): ProjectPlan => {
         updated: plan?.updated ?? faker.date.recent().toISOString(),
         projectId: plan?.projectId ?? apId(),
         name: plan?.name ?? faker.lorem.word(),
+        aiTokens: plan?.aiTokens ?? 0,
         minimumPollingInterval: plan?.minimumPollingInterval ?? 0,
         connections: plan?.connections ?? 0,
         pieces: plan?.pieces ?? [],
@@ -176,6 +178,7 @@ export const createMockGitRepo = (gitRepo?: Partial<GitRepo>): GitRepo => {
 export const createMockPlatform = (platform?: Partial<Platform>): Platform => {
     return {
         id: platform?.id ?? apId(),
+        analyticsEnabled: platform?.analyticsEnabled ?? false,
         created: platform?.created ?? faker.date.recent().toISOString(),
         updated: platform?.updated ?? faker.date.recent().toISOString(),
         ownerId: platform?.ownerId ?? apId(),
@@ -522,6 +525,7 @@ export const createMockFile = (file?: Partial<File>): File => {
         updated: file?.updated ?? faker.date.recent().toISOString(),
         platformId: file?.platformId ?? apId(),
         projectId: file?.projectId ?? apId(),
+        location: file?.location ?? FileLocation.DB,
         compression: file?.compression ?? faker.helpers.enumValue(FileCompression),
         data: file?.data ?? Buffer.from(faker.lorem.paragraphs()),
         type: file?.type ?? faker.helpers.enumValue(FileType),

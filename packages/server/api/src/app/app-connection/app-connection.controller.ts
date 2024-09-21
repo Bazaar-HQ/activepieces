@@ -9,8 +9,6 @@ import {
     SeekPage,
     SERVICE_KEY_SECURITY_OPENAPI,
     UpsertAppConnectionRequestBody,
-    ValidateConnectionNameRequestBody,
-    ValidateConnectionNameResponse,
 } from '@activepieces/shared'
 import {
     FastifyPluginCallbackTypebox,
@@ -30,7 +28,7 @@ export const appConnectionController: FastifyPluginCallbackTypebox = (
             projectId: request.principal.projectId,
             request: request.body,
         })
-        eventsHooks.get().sendUserEvent(request, {
+        eventsHooks.get().sendUserEventFromRequest(request, {
             action: ApplicationEventName.CONNECTION_UPSERTED,
             data: {
                 connection: appConnection,
@@ -56,29 +54,14 @@ export const appConnectionController: FastifyPluginCallbackTypebox = (
                 limit: limit ?? DEFAULT_PAGE_SIZE,
             })
 
-            const appConnectionsWithoutSensitiveData: SeekPage<AppConnectionWithoutSensitiveData> =
-      {
-          ...appConnections,
-          data: appConnections.data.map(removeSensitiveData),
-      }
+            const appConnectionsWithoutSensitiveData: SeekPage<AppConnectionWithoutSensitiveData> = {
+                ...appConnections,
+                data: appConnections.data.map(removeSensitiveData),
+            }
 
             return appConnectionsWithoutSensitiveData
         },
     )
-    app.post(
-        '/validate-connection-name',
-        ValidateConnectionNameRequest,
-        async (request, reply): Promise<ValidateConnectionNameResponse> => {
-            const result = await appConnectionService.validateConnectionName({
-                projectId: request.principal.projectId,
-                connectionName: request.body.connectionName,
-            })
-            if (result.error) {
-                return reply.status(StatusCodes.BAD_REQUEST).send(result)
-            }
-            return result
-        },
-    ),
     app.delete(
         '/:id',
         DeleteAppConnectionRequest,
@@ -87,7 +70,7 @@ export const appConnectionController: FastifyPluginCallbackTypebox = (
                 id: request.params.id,
                 projectId: request.principal.projectId,
             })
-            eventsHooks.get().sendUserEvent(request, {
+            eventsHooks.get().sendUserEventFromRequest(request, {
                 action: ApplicationEventName.CONNECTION_DELETED,
                 data: {
                     connection,
@@ -145,22 +128,6 @@ const ListAppConnectionsRequest = {
     },
 }
 
-const ValidateConnectionNameRequest = {
-    config: {
-        allowedPrincipals: [PrincipalType.USER, PrincipalType.SERVICE],
-        permission: Permission.READ_APP_CONNECTION,
-    },
-    schema: {
-        tags: ['app-connections'],
-        security: [SERVICE_KEY_SECURITY_OPENAPI],
-        body: ValidateConnectionNameRequestBody,
-        description: 'Validate app connection name',
-        response: {
-            [StatusCodes.OK]: ValidateConnectionNameResponse,
-            [StatusCodes.BAD_REQUEST]: ValidateConnectionNameResponse,
-        },
-    },
-}
 
 const DeleteAppConnectionRequest = {
     config: {

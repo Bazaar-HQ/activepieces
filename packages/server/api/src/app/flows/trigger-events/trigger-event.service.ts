@@ -8,6 +8,7 @@ import {
     PieceTrigger,
     PopulatedFlow,
     ProjectId,
+    sanitizeObjectForPostgresql,
     SeekPage,
     Trigger,
     TriggerEvent,
@@ -23,7 +24,6 @@ import { buildPaginator } from '../../helper/pagination/build-paginator'
 import { paginationHelper } from '../../helper/pagination/pagination-utils'
 import { Order } from '../../helper/pagination/paginator'
 import { flowService } from '../flow/flow.service'
-import { stepFileService } from '../step-file/step-file.service'
 import { TriggerEventEntity } from './trigger-event.entity'
 
 export const triggerEventRepo = repoFactory(TriggerEventEntity)
@@ -44,13 +44,13 @@ export const triggerEventService = {
         })
 
         const sourceName = getSourceName(flow.version.trigger)
-
+        
         return triggerEventRepo().save({
             id: apId(),
             projectId,
             flowId: flow.id,
             sourceName,
-            payload,
+            payload: sanitizeObjectForPostgresql(payload),
         })
     },
 
@@ -65,11 +65,6 @@ export const triggerEventService = {
         const emptyPage = paginationHelper.createPage<TriggerEvent>([], null)
         switch (trigger.type) {
             case TriggerType.PIECE: {
-                await deleteOldFilesForTestData({
-                    projectId,
-                    flowId: flow.id,
-                    stepName: trigger.name,
-                })
                 const engineToken = await accessTokenManager.generateEngineToken({
                     projectId,
                 })
@@ -80,6 +75,7 @@ export const triggerEventService = {
                         flowId: flow.id,
                         simulate: true,
                     }),
+                    test: true, 
                     projectId,
                 })
                 await triggerEventRepo().delete({
@@ -149,21 +145,6 @@ export const triggerEventService = {
     },
 }
 
-async function deleteOldFilesForTestData({
-    projectId,
-    flowId,
-    stepName,
-}: {
-    projectId: string
-    flowId: string
-    stepName: string
-}): Promise<void> {
-    await stepFileService.deleteAll({
-        projectId,
-        flowId,
-        stepName,
-    })
-}
 function getSourceName(trigger: Trigger): string {
     switch (trigger.type) {
         case TriggerType.PIECE: {

@@ -1,5 +1,5 @@
 import { GetRunForWorkerRequest, JobStatus, logger, QueueName, SharedSystemProp, system, UpdateFailureCountRequest, UpdateJobRequest } from '@activepieces/server-shared'
-import { ActivepiecesError, ApEdition, ApEnvironment, assertNotNullOrUndefined, EngineHttpResponse, EnginePrincipal, ErrorCode, ExecutionState, FlowRunResponse, FlowRunStatus, FlowStatus, GetFlowVersionForWorkerRequest, GetFlowVersionForWorkerRequestType, isNil, PauseType, PopulatedFlow, PrincipalType, ProgressUpdateType, RemoveStableJobEngineRequest, StepOutput, UpdateRunProgressRequest, WebsocketClientEvent } from '@activepieces/shared'
+import { ActivepiecesError, ApEdition, ApEnvironment, assertNotNullOrUndefined, EngineHttpResponse, EnginePrincipal, ErrorCode, ExecutionState, FileType, FlowRunResponse, FlowRunStatus, FlowStatus, GetFlowVersionForWorkerRequest, GetFlowVersionForWorkerRequestType, isNil, PauseType, PopulatedFlow, PrincipalType, ProgressUpdateType, RemoveStableJobEngineRequest, StepOutput, UpdateRunProgressRequest, WebsocketClientEvent } from '@activepieces/shared'
 import { FastifyPluginAsyncTypebox, Type } from '@fastify/type-provider-typebox'
 import { StatusCodes } from 'http-status-codes'
 import { entitiesMustBeOwnedByCurrentProject } from '../authentication/authorization'
@@ -29,6 +29,17 @@ export const flowEngineWorker: FastifyPluginAsyncTypebox = async (app) => {
         return flowRunService.getOnePopulatedOrThrow({
             id: runId,
             projectId: request.principal.projectId,
+        })
+    })
+
+    app.get('/populated-flows', GetAllFlowsByProjectParams,  async (request) => {
+        return flowService.list({
+            projectId: request.principal.projectId,
+            limit: 1000000,
+            cursorRequest: null,
+            folderId: undefined,
+            status: undefined,
+            name: undefined,
         })
     })
 
@@ -105,7 +116,7 @@ export const flowEngineWorker: FastifyPluginAsyncTypebox = async (app) => {
             })
         }
 
-        await markJobAsCompleted(populatedRun.status, populatedRun.id, request.principal as unknown as EnginePrincipal)
+        await markJobAsCompleted(populatedRun.status, populatedRun.id, request.principal as unknown as EnginePrincipal, runDetails.error)
         return {}
     })
 
@@ -163,19 +174,22 @@ export const flowEngineWorker: FastifyPluginAsyncTypebox = async (app) => {
 
     app.get('/files/:fileId', GetFileRequestParams, async (request, reply) => {
         const { fileId } = request.params
-        const file = await fileService.getOneOrThrow({
+        const { data } = await fileService.getDataOrThrow({
             fileId,
+            type: FileType.PACKAGE_ARCHIVE,
         })
         return reply
             .type('application/zip')
             .status(StatusCodes.OK)
-            .send(file.data)
+            .send(data)
     })
+
+
 
 }
 
 
-async function markJobAsCompleted(status: FlowRunStatus, jobId: string, enginePrincipal: EnginePrincipal): Promise<void> {
+async function markJobAsCompleted(status: FlowRunStatus, jobId: string, enginePrincipal: EnginePrincipal, error: unknown): Promise<void> {
     switch (status) {
         case FlowRunStatus.FAILED:
         case FlowRunStatus.TIMEOUT:
@@ -188,7 +202,7 @@ async function markJobAsCompleted(status: FlowRunStatus, jobId: string, enginePr
         case FlowRunStatus.RUNNING:
             break
         case FlowRunStatus.INTERNAL_ERROR:
-            await flowConsumer.update({ jobId, queueName: QueueName.ONE_TIME, status: JobStatus.FAILED, token: enginePrincipal.queueToken!, message: 'Flow failed with internal error reported by engine' })
+            await flowConsumer.update({ jobId, queueName: QueueName.ONE_TIME, status: JobStatus.FAILED, token: enginePrincipal.queueToken!, message: `Internal error reported by engine: ${JSON.stringify(error)}` })
     }
 }
 
@@ -311,7 +325,12 @@ async function getFlowResponse(
 }
 
 
-
+const GetAllFlowsByProjectParams = {
+    config: {
+        allowedPrincipals: [PrincipalType.ENGINE],
+    },
+    schema: {},
+}
 const CheckTaskLimitParams = {
     config: {
         allowedPrincipals: [PrincipalType.ENGINE],

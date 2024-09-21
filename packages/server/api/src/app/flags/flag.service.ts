@@ -1,5 +1,5 @@
 import { AppSystemProp, flowTimeoutSandbox, SharedSystemProp, system, webhookSecretsUtils } from '@activepieces/server-shared'
-import { ApEdition, ApFlagId, CodeSandboxType, Flag, isNil } from '@activepieces/shared'
+import { ApEdition, ApFlagId, ExecutionMode, Flag, isNil } from '@activepieces/shared'
 import axios from 'axios'
 import { webhookUtils } from 'server-worker'
 import { repoFactory } from '../core/db/repo-factory'
@@ -7,6 +7,8 @@ import { FlagEntity } from './flag.entity'
 import { defaultTheme } from './theme'
 
 const flagRepo = repoFactory(FlagEntity)
+
+let cachedVersion: string | undefined
 
 export const flagService = {
     save: async (flag: FlagType): Promise<Flag> => {
@@ -35,6 +37,12 @@ export const flagService = {
                 updated,
             },
             {
+                id: ApFlagId.SHOW_POWERED_BY_IN_FORM,
+                value: true,
+                created,
+                updated,
+            },
+            {
                 id: ApFlagId.IS_CLOUD_PLATFORM,
                 value: false,
                 created,
@@ -43,6 +51,12 @@ export const flagService = {
             {
                 id: ApFlagId.PIECES_SYNC_MODE,
                 value: system.get(AppSystemProp.PIECES_SYNC_MODE),
+                created,
+                updated,
+            },
+            {
+                id: ApFlagId.EXECUTION_DATA_RETENTION_DAYS,
+                value: system.getNumber(AppSystemProp.EXECUTION_DATA_RETENTION_DAYS),
                 created,
                 updated,
             },
@@ -134,7 +148,7 @@ export const flagService = {
                 id: ApFlagId.THIRD_PARTY_AUTH_PROVIDER_REDIRECT_URL,
                 value: [ApEdition.CLOUD, ApEdition.ENTERPRISE].includes(system.getEdition())
                     ? this.getThirdPartyRedirectUrl(undefined, undefined)
-                    : undefined,
+                    : `${system.get(SharedSystemProp.FRONTEND_URL)}/redirect`,
                 created,
                 updated,
             },
@@ -224,11 +238,11 @@ export const flagService = {
             },
             {
                 id: ApFlagId.ALLOW_NPM_PACKAGES_IN_CODE_STEP,
-                value: system.get(SharedSystemProp.CODE_SANDBOX_TYPE) === CodeSandboxType.NO_OP,
+                value: system.get(SharedSystemProp.EXECUTION_MODE) !== ExecutionMode.SANDBOX_CODE_ONLY,
                 created,
                 updated,
             },
-            
+
         )
 
         return flags
@@ -254,9 +268,16 @@ export const flagService = {
     },
     async getLatestRelease(): Promise<string> {
         try {
+            if (cachedVersion) {
+                return cachedVersion
+            }
             const response = await axios.get<PackageJson>(
                 'https://raw.githubusercontent.com/activepieces/activepieces/main/package.json',
+                {
+                    timeout: 5000,
+                },
             )
+            cachedVersion = response.data.version
             return response.data.version
         }
         catch (ex) {

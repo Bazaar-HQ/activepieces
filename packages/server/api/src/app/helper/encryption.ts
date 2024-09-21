@@ -4,23 +4,23 @@ import { promisify } from 'util'
 
 import { AppSystemProp, QueueMode, system } from '@activepieces/server-shared'
 import {
-    ActivepiecesError,
     assertNotNullOrUndefined,
-    ErrorCode,
     isNil,
 } from '@activepieces/shared'
+import { Static, Type } from '@sinclair/typebox'
 import { localFileStore } from './local-store'
 
 let secret: string | null
 const algorithm = 'aes-256-cbc'
 const ivLength = 16
 
-export type EncryptedObject = {
-    iv: string
-    data: string
-}
+export const EncryptedObject = Type.Composite([Type.Object({
+    iv: Type.String(),
+    data: Type.String(),
+})])
+export type EncryptedObject = Static<typeof EncryptedObject>
 
-const loadEncryptionKey = async (queueMode: QueueMode): Promise<void> => {
+const loadEncryptionKey = async (queueMode: QueueMode): Promise<string | null> => {
     secret = system.get(AppSystemProp.ENCRYPTION_KEY) ?? null
     if (queueMode === QueueMode.MEMORY) {
         if (isNil(secret)) {
@@ -30,17 +30,7 @@ const loadEncryptionKey = async (queueMode: QueueMode): Promise<void> => {
             secret = await generateAndStoreSecret()
         }
     }
-    if (isNil(secret)) {
-        throw new ActivepiecesError(
-            {
-                code: ErrorCode.SYSTEM_PROP_INVALID,
-                params: {
-                    prop: AppSystemProp.ENCRYPTION_KEY,
-                },
-            },
-            `System property AP_${AppSystemProp.ENCRYPTION_KEY} must be defined`,
-        )
-    }
+    return secret
 }
 
 const generateAndStoreSecret = async (): Promise<string> => {

@@ -14,7 +14,9 @@
       "dark": "#121212"
     }
   },
-  "openapi": ["/openapi.json"],
+  "openapi": [
+    "/openapi.json"
+  ],
   "metadata": {
     "description": "Open source no-code business automation· Zapier open source alternative"
   },
@@ -67,28 +69,39 @@
   "navigation": [
     {
       "group": "Getting Started",
-      "pages": ["getting-started/introduction", "getting-started/principles"]
+      "pages": [
+        "getting-started/introduction",
+        "getting-started/principles"
+      ]
     },
     {
       "group": "Get Started",
-      "pages": ["endpoints/overview"]
+      "pages": [
+        "endpoints/overview"
+      ]
     },
     {
       "group": "Handbook",
       "pages": [
-        "handbook/overview",
-        "handbook/values",
-        {
-          "group": "Engineering",
-          "icon": "code",
-          "pages": [
-            "handbook/engineering/pre-releases",
-            "handbook/engineering/team",
-            "handbook/engineering/how-we-work",
-            "handbook/engineering/stack",
-            "handbook/engineering/hiring"
-          ]
-        }
+        "handbook/overview"
+      ]
+    },
+    {
+      "group": "Hiring",
+      "icon": "user",
+      "pages": [
+        "handbook/hiring/hiring",
+        "handbook/hiring/levels",
+        "handbook/hiring/team",
+        "handbook/hiring/compensation"
+      ]
+    },
+    {
+      "group": "Engineering",
+      "icon": "code",
+      "pages": [
+        "handbook/engineering/pre-releases",
+        "handbook/engineering/how-we-work"
       ]
     },
     {
@@ -109,7 +122,7 @@
           "icon": "paper-plane",
           "pages": [
             "endpoints/user-invitations/schema",
-            "endpoints/user-invitations/create",
+            "endpoints/user-invitations/upsert",
             "endpoints/user-invitations/list",
             "endpoints/user-invitations/delete"
           ]
@@ -119,7 +132,6 @@
           "icon": "user",
           "pages": [
             "endpoints/project-members/schema",
-            "endpoints/project-members/create",
             "endpoints/project-members/list",
             "endpoints/project-members/delete"
           ]
@@ -158,12 +170,41 @@
         {
           "group": "Pieces",
           "icon": "plug",
-          "pages": ["endpoints/pieces/schema", "endpoints/pieces/install"]
+          "pages": [
+            "endpoints/pieces/schema",
+            "endpoints/pieces/install"
+          ]
         },
         {
           "group": "Git Sync",
           "icon": "git",
-          "pages": ["endpoints/git-repos/schema", "endpoints/git-repos/pull"]
+          "pages": [
+            "endpoints/git-repos/schema",
+            "endpoints/git-repos/pull"
+          ]
+        },
+        {
+          "group": "Folders",
+          "icon": "folder",
+          "pages": [
+            "endpoints/folders/schema",
+            "endpoints/folders/create",
+            "endpoints/folders/update",
+            "endpoints/folders/get",
+            "endpoints/folders/list",
+            "endpoints/folders/delete"
+          ]
+        },
+        {
+          "group": "Flow Templates",
+          "icon": "copy",
+          "pages": [
+            "endpoints/flow-templates/schema",
+            "endpoints/flow-templates/create",
+            "endpoints/flow-templates/delete",
+            "endpoints/flow-templates/get",
+            "endpoints/flow-templates/list"
+          ]
         }
       ]
     },
@@ -184,25 +225,24 @@
         "install/overview",
         "install/options/docker",
         "install/options/docker-compose",
-        "install/options/easypanel",
-        "install/options/aws",
-        "install/options/gcp"
+        {
+          "group": "Others Options",
+          "pages": [
+            "install/options/easypanel",
+            "install/options/aws",
+            "install/options/gcp"
+          ]
+        }
       ]
     },
     {
-      "group": "Reference",
+      "group": "Configuration",
       "pages": [
-        {
-          "group": "Configurations",
-          "icon": "gear",
-          "pages": [
-            "install/configurations/environment-variables",
-            "install/configurations/setup-app-webhooks"
-          ]
-        },
-        "install/setup-ssl",
-        "install/enterprise",
-        "install/troubleshooting"
+        "install/configuration/overview",
+        "install/configuration/environment-variables",
+        "install/configuration/setup-app-webhooks",
+        "install/configuration/setup-ssl",
+        "install/configuration/troubleshooting"
       ]
     },
     {
@@ -215,12 +255,9 @@
       ]
     },
     {
-      "group": "Getting Started",
-      "pages": ["developers/overview"]
-    },
-    {
       "group": "Build a Piece",
       "pages": [
+        "developers/building-pieces/overview",
         "developers/building-pieces/start-building",
         "developers/building-pieces/setup-fork",
         {
@@ -253,6 +290,7 @@
       "group": "Piece Reference",
       "pages": [
         "developers/piece-reference/authentication",
+        "developers/piece-reference/use-ai",
         {
           "group": "Triggers",
           "icon": "bolt",
@@ -276,6 +314,7 @@
     {
       "group": "Misc",
       "pages": [
+        "developers/misc/create-new-ai-provider",
         "developers/misc/pieces-ci-cd",
         "developers/misc/scale-pieces",
         "developers/misc/private-fork"
@@ -303,7 +342,8 @@
         "admin-console/manage-templates",
         "admin-console/manage-pieces",
         "admin-console/manage-oauth2",
-        "admin-console/customize-emails"
+        "admin-console/customize-emails",
+        "admin-console/manage-ai-providers"
       ]
     },
     {
@@ -336,7 +376,11 @@
     },
     {
       "group": "Security",
-      "pages": ["security/practices", "security/permissions", "security/sso"]
+      "pages": [
+        "security/practices",
+        "security/permissions",
+        "security/sso"
+      ]
     },
     {
       "group": "About",

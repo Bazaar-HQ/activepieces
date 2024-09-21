@@ -17,11 +17,11 @@ import {
     FlowVersionState,
     ImportFlowRequest,
     isNil,
-    LoopOnItemsActionSettingsWithValidation,
+    LoopOnItemsActionSettings,
     PieceActionSettings,
     PieceCategory,
     PieceTriggerSettings,
-    ProjectId, SeekPage, TriggerType, UserId,
+    ProjectId, sanitizeObjectForPostgresql, SeekPage, TriggerType, UserId,
 } from '@activepieces/shared'
 import { TSchema, Type } from '@sinclair/typebox'
 import { TypeCompiler } from '@sinclair/typebox/compiler'
@@ -33,7 +33,6 @@ import { paginationHelper } from '../../helper/pagination/pagination-utils'
 import { pieceMetadataService } from '../../pieces/piece-metadata-service'
 import { platformService } from '../../platform/platform.service'
 import { projectService } from '../../project/project-service'
-import { stepFileService } from '../step-file/step-file.service'
 import { FlowVersionEntity } from './flow-version-entity'
 import { flowVersionSideEffects } from './flow-version-side-effects'
 
@@ -41,7 +40,7 @@ const branchSettingsValidator = TypeCompiler.Compile(
     BranchActionSettingsWithValidation,
 )
 const loopSettingsValidator = TypeCompiler.Compile(
-    LoopOnItemsActionSettingsWithValidation,
+    LoopOnItemsActionSettings,
 )
 const flowVersionRepo = repoFactory(FlowVersionEntity)
 
@@ -146,7 +145,7 @@ export const flowVersionService = {
         if (userId) {
             mutatedFlowVersion.updatedBy = userId
         }
-        return flowVersionRepo(entityManager).save(mutatedFlowVersion)
+        return flowVersionRepo(entityManager).save(sanitizeObjectForPostgresql(mutatedFlowVersion))
     },
 
     async getOne(id: FlowVersionId): Promise<FlowVersion | null> {
@@ -412,22 +411,6 @@ async function prepareRequest(
                         settings: clonedRequest.request.settings,
                         projectId,
                     })
-                    const previousStep = flowHelper.getStep(
-                        flowVersion,
-                        clonedRequest.request.name,
-                    )
-                    if (
-                        previousStep !== undefined &&
-                        previousStep.type === ActionType.PIECE &&
-                        clonedRequest.request.settings.pieceName !==
-                        previousStep.settings.pieceName
-                    ) {
-                        await stepFileService.deleteAll({
-                            projectId,
-                            flowId: flowVersion.flowId,
-                            stepName: previousStep.name,
-                        })
-                    }
                     break
                 }
                 case ActionType.CODE: {
@@ -436,20 +419,6 @@ async function prepareRequest(
             }
             break
         case FlowOperationType.DELETE_ACTION: {
-            const previousStep = flowHelper.getStep(
-                flowVersion,
-                clonedRequest.request.name,
-            )
-            if (
-                previousStep !== undefined &&
-                previousStep.type === ActionType.PIECE
-            ) {
-                await stepFileService.deleteAll({
-                    projectId,
-                    flowId: flowVersion.flowId,
-                    stepName: previousStep.name,
-                })
-            }
             break
         }
         case FlowOperationType.UPDATE_TRIGGER:
@@ -602,7 +571,7 @@ function buildSchema(props: PiecePropertyMap): TSchema {
                 break
             case PropertyType.NUMBER:
                 // Because it could be a variable
-                propsSchema[name] = Type.String({})
+                propsSchema[name] = Type.Union([Type.String({}), Type.Number({})])
                 break
             case PropertyType.STATIC_DROPDOWN:
                 propsSchema[name] = nonNullableUnknownPropType

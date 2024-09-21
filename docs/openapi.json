@@ -31,6 +31,9 @@
           "projectId": {
             "type": "string"
           },
+          "projectDisplayName": {
+            "type": "string"
+          },
           "userId": {
             "type": "string"
           },
@@ -112,6 +115,9 @@
           "projectId": {
             "type": "string"
           },
+          "projectDisplayName": {
+            "type": "string"
+          },
           "userId": {
             "type": "string"
           },
@@ -155,25 +161,25 @@
                   "id": {
                     "type": "string"
                   },
-                  "created": {
-                    "type": "string"
-                  },
-                  "updated": {
+                  "displayName": {
                     "type": "string"
                   },
                   "flowId": {
                     "type": "string"
                   },
-                  "displayName": {
+                  "created": {
+                    "type": "string"
+                  },
+                  "updated": {
                     "type": "string"
                   }
                 },
                 "required": [
                   "id",
-                  "created",
-                  "updated",
+                  "displayName",
                   "flowId",
-                  "displayName"
+                  "created",
+                  "updated"
                 ]
               },
               "project": {
@@ -203,1730 +209,6 @@
           "data"
         ]
       },
-      "flow.updated": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string"
-          },
-          "created": {
-            "type": "string"
-          },
-          "updated": {
-            "type": "string"
-          },
-          "platformId": {
-            "type": "string"
-          },
-          "projectId": {
-            "type": "string"
-          },
-          "userId": {
-            "type": "string"
-          },
-          "userEmail": {
-            "type": "string"
-          },
-          "ip": {
-            "type": "string"
-          },
-          "action": {
-            "type": "string",
-            "enum": [
-              "flow.updated"
-            ]
-          },
-          "data": {
-            "type": "object",
-            "properties": {
-              "flowVersion": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string"
-                  },
-                  "created": {
-                    "type": "string"
-                  },
-                  "updated": {
-                    "type": "string"
-                  },
-                  "flowId": {
-                    "type": "string"
-                  },
-                  "displayName": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "id",
-                  "created",
-                  "updated",
-                  "flowId",
-                  "displayName"
-                ]
-              },
-              "request": {
-                "anyOf": [
-                  {
-                    "title": "Move Action",
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "MOVE_ACTION"
-                        ]
-                      },
-                      "request": {
-                        "type": "object",
-                        "properties": {
-                          "name": {
-                            "type": "string"
-                          },
-                          "newParentStep": {
-                            "type": "string"
-                          },
-                          "stepLocationRelativeToNewParent": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "INSIDE_TRUE_BRANCH"
-                                ]
-                              },
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "INSIDE_FALSE_BRANCH"
-                                ]
-                              },
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "AFTER"
-                                ]
-                              },
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "INSIDE_LOOP"
-                                ]
-                              }
-                            ]
-                          }
-                        },
-                        "required": [
-                          "name",
-                          "newParentStep"
-                        ]
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "request"
-                    ]
-                  },
-                  {
-                    "title": "Change Status",
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "CHANGE_STATUS"
-                        ]
-                      },
-                      "request": {
-                        "type": "object",
-                        "properties": {
-                          "status": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "ENABLED"
-                                ]
-                              },
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "DISABLED"
-                                ]
-                              }
-                            ]
-                          }
-                        },
-                        "required": [
-                          "status"
-                        ]
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "request"
-                    ]
-                  },
-                  {
-                    "title": "Lock and Publish",
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "LOCK_AND_PUBLISH"
-                        ]
-                      },
-                      "request": {
-                        "type": "object",
-                        "properties": {}
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "request"
-                    ]
-                  },
-                  {
-                    "title": "Copy as Draft",
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "USE_AS_DRAFT"
-                        ]
-                      },
-                      "request": {
-                        "type": "object",
-                        "properties": {
-                          "versionId": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "versionId"
-                        ]
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "request"
-                    ]
-                  },
-                  {
-                    "title": "Lock Flow",
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "LOCK_FLOW"
-                        ]
-                      },
-                      "request": {
-                        "type": "object",
-                        "properties": {}
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "request"
-                    ]
-                  },
-                  {
-                    "title": "Import Flow",
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "IMPORT_FLOW"
-                        ]
-                      },
-                      "request": {
-                        "type": "object",
-                        "properties": {
-                          "displayName": {
-                            "type": "string"
-                          },
-                          "trigger": {
-                            "anyOf": [
-                              {
-                                "type": "object",
-                                "properties": {
-                                  "name": {
-                                    "type": "string"
-                                  },
-                                  "valid": {
-                                    "type": "boolean"
-                                  },
-                                  "displayName": {
-                                    "type": "string"
-                                  },
-                                  "nextAction": {},
-                                  "type": {
-                                    "type": "string",
-                                    "enum": [
-                                      "PIECE_TRIGGER"
-                                    ]
-                                  },
-                                  "settings": {
-                                    "type": "object",
-                                    "properties": {
-                                      "pieceName": {
-                                        "type": "string"
-                                      },
-                                      "pieceVersion": {
-                                        "type": "string",
-                                        "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$"
-                                      },
-                                      "pieceType": {
-                                        "anyOf": [
-                                          {
-                                            "type": "string",
-                                            "enum": [
-                                              "CUSTOM"
-                                            ]
-                                          },
-                                          {
-                                            "type": "string",
-                                            "enum": [
-                                              "OFFICIAL"
-                                            ]
-                                          }
-                                        ]
-                                      },
-                                      "packageType": {
-                                        "anyOf": [
-                                          {
-                                            "type": "string",
-                                            "enum": [
-                                              "ARCHIVE"
-                                            ]
-                                          },
-                                          {
-                                            "type": "string",
-                                            "enum": [
-                                              "REGISTRY"
-                                            ]
-                                          }
-                                        ]
-                                      },
-                                      "triggerName": {
-                                        "type": "string"
-                                      },
-                                      "input": {
-                                        "type": "object",
-                                        "additionalProperties": {}
-                                      },
-                                      "inputUiInfo": {
-                                        "additionalProperties": true,
-                                        "type": "object",
-                                        "properties": {
-                                          "currentSelectedData": {},
-                                          "customizedInputs": {
-                                            "type": "object",
-                                            "additionalProperties": {}
-                                          },
-                                          "lastTestDate": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      }
-                                    },
-                                    "required": [
-                                      "pieceName",
-                                      "pieceVersion",
-                                      "pieceType",
-                                      "packageType",
-                                      "triggerName",
-                                      "input",
-                                      "inputUiInfo"
-                                    ]
-                                  }
-                                },
-                                "required": [
-                                  "name",
-                                  "valid",
-                                  "displayName",
-                                  "type",
-                                  "settings"
-                                ]
-                              },
-                              {
-                                "type": "object",
-                                "properties": {
-                                  "name": {
-                                    "type": "string"
-                                  },
-                                  "valid": {
-                                    "type": "boolean"
-                                  },
-                                  "displayName": {
-                                    "type": "string"
-                                  },
-                                  "nextAction": {},
-                                  "type": {
-                                    "type": "string",
-                                    "enum": [
-                                      "EMPTY"
-                                    ]
-                                  },
-                                  "settings": {}
-                                },
-                                "required": [
-                                  "name",
-                                  "valid",
-                                  "displayName",
-                                  "type",
-                                  "settings"
-                                ]
-                              }
-                            ]
-                          }
-                        },
-                        "required": [
-                          "displayName",
-                          "trigger"
-                        ]
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "request"
-                    ]
-                  },
-                  {
-                    "title": "Change Name",
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "CHANGE_NAME"
-                        ]
-                      },
-                      "request": {
-                        "type": "object",
-                        "properties": {
-                          "displayName": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "displayName"
-                        ]
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "request"
-                    ]
-                  },
-                  {
-                    "title": "Delete Action",
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "DELETE_ACTION"
-                        ]
-                      },
-                      "request": {
-                        "type": "object",
-                        "properties": {
-                          "name": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "name"
-                        ]
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "request"
-                    ]
-                  },
-                  {
-                    "title": "Update Action",
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "UPDATE_ACTION"
-                        ]
-                      },
-                      "request": {
-                        "anyOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "name": {
-                                "type": "string"
-                              },
-                              "valid": {
-                                "type": "boolean"
-                              },
-                              "displayName": {
-                                "type": "string"
-                              },
-                              "type": {
-                                "type": "string",
-                                "enum": [
-                                  "CODE"
-                                ]
-                              },
-                              "settings": {
-                                "type": "object",
-                                "properties": {
-                                  "sourceCode": {
-                                    "type": "object",
-                                    "properties": {
-                                      "packageJson": {
-                                        "type": "string"
-                                      },
-                                      "code": {
-                                        "type": "string"
-                                      }
-                                    },
-                                    "required": [
-                                      "packageJson",
-                                      "code"
-                                    ]
-                                  },
-                                  "input": {
-                                    "type": "object",
-                                    "additionalProperties": {}
-                                  },
-                                  "inputUiInfo": {
-                                    "additionalProperties": true,
-                                    "type": "object",
-                                    "properties": {
-                                      "currentSelectedData": {},
-                                      "customizedInputs": {
-                                        "type": "object",
-                                        "additionalProperties": {}
-                                      },
-                                      "lastTestDate": {
-                                        "type": "string"
-                                      }
-                                    }
-                                  },
-                                  "errorHandlingOptions": {
-                                    "type": "object",
-                                    "properties": {
-                                      "continueOnFailure": {
-                                        "type": "object",
-                                        "properties": {
-                                          "value": {
-                                            "type": "boolean"
-                                          }
-                                        },
-                                        "required": [
-                                          "value"
-                                        ]
-                                      },
-                                      "retryOnFailure": {
-                                        "type": "object",
-                                        "properties": {
-                                          "value": {
-                                            "type": "boolean"
-                                          }
-                                        },
-                                        "required": [
-                                          "value"
-                                        ]
-                                      }
-                                    }
-                                  }
-                                },
-                                "required": [
-                                  "sourceCode",
-                                  "input"
-                                ]
-                              }
-                            },
-                            "required": [
-                              "name",
-                              "valid",
-                              "displayName",
-                              "type",
-                              "settings"
-                            ]
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "name": {
-                                "type": "string"
-                              },
-                              "valid": {
-                                "type": "boolean"
-                              },
-                              "displayName": {
-                                "type": "string"
-                              },
-                              "type": {
-                                "type": "string",
-                                "enum": [
-                                  "LOOP_ON_ITEMS"
-                                ]
-                              },
-                              "settings": {
-                                "type": "object",
-                                "properties": {
-                                  "items": {
-                                    "type": "string"
-                                  },
-                                  "inputUiInfo": {
-                                    "additionalProperties": true,
-                                    "type": "object",
-                                    "properties": {
-                                      "currentSelectedData": {},
-                                      "customizedInputs": {
-                                        "type": "object",
-                                        "additionalProperties": {}
-                                      },
-                                      "lastTestDate": {
-                                        "type": "string"
-                                      }
-                                    }
-                                  }
-                                },
-                                "required": [
-                                  "items",
-                                  "inputUiInfo"
-                                ]
-                              }
-                            },
-                            "required": [
-                              "name",
-                              "valid",
-                              "displayName",
-                              "type",
-                              "settings"
-                            ]
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "name": {
-                                "type": "string"
-                              },
-                              "valid": {
-                                "type": "boolean"
-                              },
-                              "displayName": {
-                                "type": "string"
-                              },
-                              "type": {
-                                "type": "string",
-                                "enum": [
-                                  "PIECE"
-                                ]
-                              },
-                              "settings": {
-                                "type": "object",
-                                "properties": {
-                                  "packageType": {
-                                    "anyOf": [
-                                      {
-                                        "type": "string",
-                                        "enum": [
-                                          "ARCHIVE"
-                                        ]
-                                      },
-                                      {
-                                        "type": "string",
-                                        "enum": [
-                                          "REGISTRY"
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  "pieceType": {
-                                    "anyOf": [
-                                      {
-                                        "type": "string",
-                                        "enum": [
-                                          "CUSTOM"
-                                        ]
-                                      },
-                                      {
-                                        "type": "string",
-                                        "enum": [
-                                          "OFFICIAL"
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  "pieceName": {
-                                    "type": "string"
-                                  },
-                                  "pieceVersion": {
-                                    "type": "string",
-                                    "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$"
-                                  },
-                                  "actionName": {
-                                    "type": "string"
-                                  },
-                                  "input": {
-                                    "type": "object",
-                                    "additionalProperties": {}
-                                  },
-                                  "inputUiInfo": {
-                                    "additionalProperties": true,
-                                    "type": "object",
-                                    "properties": {
-                                      "currentSelectedData": {},
-                                      "customizedInputs": {
-                                        "type": "object",
-                                        "additionalProperties": {}
-                                      },
-                                      "lastTestDate": {
-                                        "type": "string"
-                                      }
-                                    }
-                                  },
-                                  "errorHandlingOptions": {
-                                    "type": "object",
-                                    "properties": {
-                                      "continueOnFailure": {
-                                        "type": "object",
-                                        "properties": {
-                                          "value": {
-                                            "type": "boolean"
-                                          }
-                                        },
-                                        "required": [
-                                          "value"
-                                        ]
-                                      },
-                                      "retryOnFailure": {
-                                        "type": "object",
-                                        "properties": {
-                                          "value": {
-                                            "type": "boolean"
-                                          }
-                                        },
-                                        "required": [
-                                          "value"
-                                        ]
-                                      }
-                                    }
-                                  }
-                                },
-                                "required": [
-                                  "packageType",
-                                  "pieceType",
-                                  "pieceName",
-                                  "pieceVersion",
-                                  "input",
-                                  "inputUiInfo"
-                                ]
-                              }
-                            },
-                            "required": [
-                              "name",
-                              "valid",
-                              "displayName",
-                              "type",
-                              "settings"
-                            ]
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "name": {
-                                "type": "string"
-                              },
-                              "valid": {
-                                "type": "boolean"
-                              },
-                              "displayName": {
-                                "type": "string"
-                              },
-                              "type": {
-                                "type": "string",
-                                "enum": [
-                                  "BRANCH"
-                                ]
-                              },
-                              "settings": {
-                                "type": "object",
-                                "properties": {
-                                  "conditions": {
-                                    "type": "array",
-                                    "items": {
-                                      "type": "array",
-                                      "items": {
-                                        "anyOf": [
-                                          {
-                                            "type": "object",
-                                            "properties": {
-                                              "firstValue": {
-                                                "type": "string"
-                                              },
-                                              "secondValue": {
-                                                "type": "string"
-                                              },
-                                              "caseSensitive": {
-                                                "type": "boolean"
-                                              },
-                                              "operator": {
-                                                "anyOf": [
-                                                  {
-                                                    "type": "string",
-                                                    "enum": [
-                                                      "TEXT_CONTAINS"
-                                                    ]
-                                                  },
-                                                  {
-                                                    "type": "string",
-                                                    "enum": [
-                                                      "TEXT_DOES_NOT_CONTAIN"
-                                                    ]
-                                                  },
-                                                  {
-                                                    "type": "string",
-                                                    "enum": [
-                                                      "TEXT_EXACTLY_MATCHES"
-                                                    ]
-                                                  },
-                                                  {
-                                                    "type": "string",
-                                                    "enum": [
-                                                      "TEXT_DOES_NOT_EXACTLY_MATCH"
-                                                    ]
-                                                  },
-                                                  {
-                                                    "type": "string",
-                                                    "enum": [
-                                                      "TEXT_START_WITH"
-                                                    ]
-                                                  },
-                                                  {
-                                                    "type": "string",
-                                                    "enum": [
-                                                      "TEXT_DOES_NOT_START_WITH"
-                                                    ]
-                                                  },
-                                                  {
-                                                    "type": "string",
-                                                    "enum": [
-                                                      "TEXT_ENDS_WITH"
-                                                    ]
-                                                  },
-                                                  {
-                                                    "type": "string",
-                                                    "enum": [
-                                                      "TEXT_DOES_NOT_END_WITH"
-                                                    ]
-                                                  }
-                                                ]
-                                              }
-                                            },
-                                            "required": [
-                                              "firstValue",
-                                              "secondValue"
-                                            ]
-                                          },
-                                          {
-                                            "type": "object",
-                                            "properties": {
-                                              "firstValue": {
-                                                "type": "string"
-                                              },
-                                              "secondValue": {
-                                                "type": "string"
-                                              },
-                                              "operator": {
-                                                "anyOf": [
-                                                  {
-                                                    "type": "string",
-                                                    "enum": [
-                                                      "NUMBER_IS_GREATER_THAN"
-                                                    ]
-                                                  },
-                                                  {
-                                                    "type": "string",
-                                                    "enum": [
-                                                      "NUMBER_IS_LESS_THAN"
-                                                    ]
-                                                  },
-                                                  {
-                                                    "type": "string",
-                                                    "enum": [
-                                                      "NUMBER_IS_EQUAL_TO"
-                                                    ]
-                                                  }
-                                                ]
-                                              }
-                                            },
-                                            "required": [
-                                              "firstValue",
-                                              "secondValue"
-                                            ]
-                                          },
-                                          {
-                                            "type": "object",
-                                            "properties": {
-                                              "firstValue": {
-                                                "type": "string"
-                                              },
-                                              "operator": {
-                                                "anyOf": [
-                                                  {
-                                                    "type": "string",
-                                                    "enum": [
-                                                      "EXISTS"
-                                                    ]
-                                                  },
-                                                  {
-                                                    "type": "string",
-                                                    "enum": [
-                                                      "DOES_NOT_EXIST"
-                                                    ]
-                                                  },
-                                                  {
-                                                    "type": "string",
-                                                    "enum": [
-                                                      "BOOLEAN_IS_TRUE"
-                                                    ]
-                                                  },
-                                                  {
-                                                    "type": "string",
-                                                    "enum": [
-                                                      "BOOLEAN_IS_FALSE"
-                                                    ]
-                                                  }
-                                                ]
-                                              }
-                                            },
-                                            "required": [
-                                              "firstValue"
-                                            ]
-                                          }
-                                        ]
-                                      }
-                                    }
-                                  },
-                                  "inputUiInfo": {
-                                    "additionalProperties": true,
-                                    "type": "object",
-                                    "properties": {
-                                      "currentSelectedData": {},
-                                      "customizedInputs": {
-                                        "type": "object",
-                                        "additionalProperties": {}
-                                      },
-                                      "lastTestDate": {
-                                        "type": "string"
-                                      }
-                                    }
-                                  }
-                                },
-                                "required": [
-                                  "conditions",
-                                  "inputUiInfo"
-                                ]
-                              }
-                            },
-                            "required": [
-                              "name",
-                              "valid",
-                              "displayName",
-                              "type",
-                              "settings"
-                            ]
-                          }
-                        ]
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "request"
-                    ]
-                  },
-                  {
-                    "title": "Add Action",
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "ADD_ACTION"
-                        ]
-                      },
-                      "request": {
-                        "type": "object",
-                        "properties": {
-                          "parentStep": {
-                            "type": "string"
-                          },
-                          "stepLocationRelativeToParent": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "INSIDE_TRUE_BRANCH"
-                                ]
-                              },
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "INSIDE_FALSE_BRANCH"
-                                ]
-                              },
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "AFTER"
-                                ]
-                              },
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "INSIDE_LOOP"
-                                ]
-                              }
-                            ]
-                          },
-                          "action": {
-                            "anyOf": [
-                              {
-                                "type": "object",
-                                "properties": {
-                                  "name": {
-                                    "type": "string"
-                                  },
-                                  "valid": {
-                                    "type": "boolean"
-                                  },
-                                  "displayName": {
-                                    "type": "string"
-                                  },
-                                  "type": {
-                                    "type": "string",
-                                    "enum": [
-                                      "CODE"
-                                    ]
-                                  },
-                                  "settings": {
-                                    "type": "object",
-                                    "properties": {
-                                      "sourceCode": {
-                                        "type": "object",
-                                        "properties": {
-                                          "packageJson": {
-                                            "type": "string"
-                                          },
-                                          "code": {
-                                            "type": "string"
-                                          }
-                                        },
-                                        "required": [
-                                          "packageJson",
-                                          "code"
-                                        ]
-                                      },
-                                      "input": {
-                                        "type": "object",
-                                        "additionalProperties": {}
-                                      },
-                                      "inputUiInfo": {
-                                        "additionalProperties": true,
-                                        "type": "object",
-                                        "properties": {
-                                          "currentSelectedData": {},
-                                          "customizedInputs": {
-                                            "type": "object",
-                                            "additionalProperties": {}
-                                          },
-                                          "lastTestDate": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      },
-                                      "errorHandlingOptions": {
-                                        "type": "object",
-                                        "properties": {
-                                          "continueOnFailure": {
-                                            "type": "object",
-                                            "properties": {
-                                              "value": {
-                                                "type": "boolean"
-                                              }
-                                            },
-                                            "required": [
-                                              "value"
-                                            ]
-                                          },
-                                          "retryOnFailure": {
-                                            "type": "object",
-                                            "properties": {
-                                              "value": {
-                                                "type": "boolean"
-                                              }
-                                            },
-                                            "required": [
-                                              "value"
-                                            ]
-                                          }
-                                        }
-                                      }
-                                    },
-                                    "required": [
-                                      "sourceCode",
-                                      "input"
-                                    ]
-                                  }
-                                },
-                                "required": [
-                                  "name",
-                                  "valid",
-                                  "displayName",
-                                  "type",
-                                  "settings"
-                                ]
-                              },
-                              {
-                                "type": "object",
-                                "properties": {
-                                  "name": {
-                                    "type": "string"
-                                  },
-                                  "valid": {
-                                    "type": "boolean"
-                                  },
-                                  "displayName": {
-                                    "type": "string"
-                                  },
-                                  "type": {
-                                    "type": "string",
-                                    "enum": [
-                                      "LOOP_ON_ITEMS"
-                                    ]
-                                  },
-                                  "settings": {
-                                    "type": "object",
-                                    "properties": {
-                                      "items": {
-                                        "type": "string"
-                                      },
-                                      "inputUiInfo": {
-                                        "additionalProperties": true,
-                                        "type": "object",
-                                        "properties": {
-                                          "currentSelectedData": {},
-                                          "customizedInputs": {
-                                            "type": "object",
-                                            "additionalProperties": {}
-                                          },
-                                          "lastTestDate": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      }
-                                    },
-                                    "required": [
-                                      "items",
-                                      "inputUiInfo"
-                                    ]
-                                  }
-                                },
-                                "required": [
-                                  "name",
-                                  "valid",
-                                  "displayName",
-                                  "type",
-                                  "settings"
-                                ]
-                              },
-                              {
-                                "type": "object",
-                                "properties": {
-                                  "name": {
-                                    "type": "string"
-                                  },
-                                  "valid": {
-                                    "type": "boolean"
-                                  },
-                                  "displayName": {
-                                    "type": "string"
-                                  },
-                                  "type": {
-                                    "type": "string",
-                                    "enum": [
-                                      "PIECE"
-                                    ]
-                                  },
-                                  "settings": {
-                                    "type": "object",
-                                    "properties": {
-                                      "packageType": {
-                                        "anyOf": [
-                                          {
-                                            "type": "string",
-                                            "enum": [
-                                              "ARCHIVE"
-                                            ]
-                                          },
-                                          {
-                                            "type": "string",
-                                            "enum": [
-                                              "REGISTRY"
-                                            ]
-                                          }
-                                        ]
-                                      },
-                                      "pieceType": {
-                                        "anyOf": [
-                                          {
-                                            "type": "string",
-                                            "enum": [
-                                              "CUSTOM"
-                                            ]
-                                          },
-                                          {
-                                            "type": "string",
-                                            "enum": [
-                                              "OFFICIAL"
-                                            ]
-                                          }
-                                        ]
-                                      },
-                                      "pieceName": {
-                                        "type": "string"
-                                      },
-                                      "pieceVersion": {
-                                        "type": "string",
-                                        "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$"
-                                      },
-                                      "actionName": {
-                                        "type": "string"
-                                      },
-                                      "input": {
-                                        "type": "object",
-                                        "additionalProperties": {}
-                                      },
-                                      "inputUiInfo": {
-                                        "additionalProperties": true,
-                                        "type": "object",
-                                        "properties": {
-                                          "currentSelectedData": {},
-                                          "customizedInputs": {
-                                            "type": "object",
-                                            "additionalProperties": {}
-                                          },
-                                          "lastTestDate": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      },
-                                      "errorHandlingOptions": {
-                                        "type": "object",
-                                        "properties": {
-                                          "continueOnFailure": {
-                                            "type": "object",
-                                            "properties": {
-                                              "value": {
-                                                "type": "boolean"
-                                              }
-                                            },
-                                            "required": [
-                                              "value"
-                                            ]
-                                          },
-                                          "retryOnFailure": {
-                                            "type": "object",
-                                            "properties": {
-                                              "value": {
-                                                "type": "boolean"
-                                              }
-                                            },
-                                            "required": [
-                                              "value"
-                                            ]
-                                          }
-                                        }
-                                      }
-                                    },
-                                    "required": [
-                                      "packageType",
-                                      "pieceType",
-                                      "pieceName",
-                                      "pieceVersion",
-                                      "input",
-                                      "inputUiInfo"
-                                    ]
-                                  }
-                                },
-                                "required": [
-                                  "name",
-                                  "valid",
-                                  "displayName",
-                                  "type",
-                                  "settings"
-                                ]
-                              },
-                              {
-                                "type": "object",
-                                "properties": {
-                                  "name": {
-                                    "type": "string"
-                                  },
-                                  "valid": {
-                                    "type": "boolean"
-                                  },
-                                  "displayName": {
-                                    "type": "string"
-                                  },
-                                  "type": {
-                                    "type": "string",
-                                    "enum": [
-                                      "BRANCH"
-                                    ]
-                                  },
-                                  "settings": {
-                                    "type": "object",
-                                    "properties": {
-                                      "conditions": {
-                                        "type": "array",
-                                        "items": {
-                                          "type": "array",
-                                          "items": {
-                                            "anyOf": [
-                                              {
-                                                "type": "object",
-                                                "properties": {
-                                                  "firstValue": {
-                                                    "type": "string"
-                                                  },
-                                                  "secondValue": {
-                                                    "type": "string"
-                                                  },
-                                                  "caseSensitive": {
-                                                    "type": "boolean"
-                                                  },
-                                                  "operator": {
-                                                    "anyOf": [
-                                                      {
-                                                        "type": "string",
-                                                        "enum": [
-                                                          "TEXT_CONTAINS"
-                                                        ]
-                                                      },
-                                                      {
-                                                        "type": "string",
-                                                        "enum": [
-                                                          "TEXT_DOES_NOT_CONTAIN"
-                                                        ]
-                                                      },
-                                                      {
-                                                        "type": "string",
-                                                        "enum": [
-                                                          "TEXT_EXACTLY_MATCHES"
-                                                        ]
-                                                      },
-                                                      {
-                                                        "type": "string",
-                                                        "enum": [
-                                                          "TEXT_DOES_NOT_EXACTLY_MATCH"
-                                                        ]
-                                                      },
-                                                      {
-                                                        "type": "string",
-                                                        "enum": [
-                                                          "TEXT_START_WITH"
-                                                        ]
-                                                      },
-                                                      {
-                                                        "type": "string",
-                                                        "enum": [
-                                                          "TEXT_DOES_NOT_START_WITH"
-                                                        ]
-                                                      },
-                                                      {
-                                                        "type": "string",
-                                                        "enum": [
-                                                          "TEXT_ENDS_WITH"
-                                                        ]
-                                                      },
-                                                      {
-                                                        "type": "string",
-                                                        "enum": [
-                                                          "TEXT_DOES_NOT_END_WITH"
-                                                        ]
-                                                      }
-                                                    ]
-                                                  }
-                                                },
-                                                "required": [
-                                                  "firstValue",
-                                                  "secondValue"
-                                                ]
-                                              },
-                                              {
-                                                "type": "object",
-                                                "properties": {
-                                                  "firstValue": {
-                                                    "type": "string"
-                                                  },
-                                                  "secondValue": {
-                                                    "type": "string"
-                                                  },
-                                                  "operator": {
-                                                    "anyOf": [
-                                                      {
-                                                        "type": "string",
-                                                        "enum": [
-                                                          "NUMBER_IS_GREATER_THAN"
-                                                        ]
-                                                      },
-                                                      {
-                                                        "type": "string",
-                                                        "enum": [
-                                                          "NUMBER_IS_LESS_THAN"
-                                                        ]
-                                                      },
-                                                      {
-                                                        "type": "string",
-                                                        "enum": [
-                                                          "NUMBER_IS_EQUAL_TO"
-                                                        ]
-                                                      }
-                                                    ]
-                                                  }
-                                                },
-                                                "required": [
-                                                  "firstValue",
-                                                  "secondValue"
-                                                ]
-                                              },
-                                              {
-                                                "type": "object",
-                                                "properties": {
-                                                  "firstValue": {
-                                                    "type": "string"
-                                                  },
-                                                  "operator": {
-                                                    "anyOf": [
-                                                      {
-                                                        "type": "string",
-                                                        "enum": [
-                                                          "EXISTS"
-                                                        ]
-                                                      },
-                                                      {
-                                                        "type": "string",
-                                                        "enum": [
-                                                          "DOES_NOT_EXIST"
-                                                        ]
-                                                      },
-                                                      {
-                                                        "type": "string",
-                                                        "enum": [
-                                                          "BOOLEAN_IS_TRUE"
-                                                        ]
-                                                      },
-                                                      {
-                                                        "type": "string",
-                                                        "enum": [
-                                                          "BOOLEAN_IS_FALSE"
-                                                        ]
-                                                      }
-                                                    ]
-                                                  }
-                                                },
-                                                "required": [
-                                                  "firstValue"
-                                                ]
-                                              }
-                                            ]
-                                          }
-                                        }
-                                      },
-                                      "inputUiInfo": {
-                                        "additionalProperties": true,
-                                        "type": "object",
-                                        "properties": {
-                                          "currentSelectedData": {},
-                                          "customizedInputs": {
-                                            "type": "object",
-                                            "additionalProperties": {}
-                                          },
-                                          "lastTestDate": {
-                                            "type": "string"
-                                          }
-                                        }
-                                      }
-                                    },
-                                    "required": [
-                                      "conditions",
-                                      "inputUiInfo"
-                                    ]
-                                  }
-                                },
-                                "required": [
-                                  "name",
-                                  "valid",
-                                  "displayName",
-                                  "type",
-                                  "settings"
-                                ]
-                              }
-                            ]
-                          }
-                        },
-                        "required": [
-                          "parentStep",
-                          "action"
-                        ]
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "request"
-                    ]
-                  },
-                  {
-                    "title": "Update Trigger",
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "UPDATE_TRIGGER"
-                        ]
-                      },
-                      "request": {
-                        "anyOf": [
-                          {
-                            "type": "object",
-                            "properties": {
-                              "name": {
-                                "type": "string"
-                              },
-                              "valid": {
-                                "type": "boolean"
-                              },
-                              "displayName": {
-                                "type": "string"
-                              },
-                              "nextAction": {},
-                              "type": {
-                                "type": "string",
-                                "enum": [
-                                  "EMPTY"
-                                ]
-                              },
-                              "settings": {}
-                            },
-                            "required": [
-                              "name",
-                              "valid",
-                              "displayName",
-                              "type",
-                              "settings"
-                            ]
-                          },
-                          {
-                            "type": "object",
-                            "properties": {
-                              "name": {
-                                "type": "string"
-                              },
-                              "valid": {
-                                "type": "boolean"
-                              },
-                              "displayName": {
-                                "type": "string"
-                              },
-                              "nextAction": {},
-                              "type": {
-                                "type": "string",
-                                "enum": [
-                                  "PIECE_TRIGGER"
-                                ]
-                              },
-                              "settings": {
-                                "type": "object",
-                                "properties": {
-                                  "pieceName": {
-                                    "type": "string"
-                                  },
-                                  "pieceVersion": {
-                                    "type": "string",
-                                    "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$"
-                                  },
-                                  "pieceType": {
-                                    "anyOf": [
-                                      {
-                                        "type": "string",
-                                        "enum": [
-                                          "CUSTOM"
-                                        ]
-                                      },
-                                      {
-                                        "type": "string",
-                                        "enum": [
-                                          "OFFICIAL"
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  "packageType": {
-                                    "anyOf": [
-                                      {
-                                        "type": "string",
-                                        "enum": [
-                                          "ARCHIVE"
-                                        ]
-                                      },
-                                      {
-                                        "type": "string",
-                                        "enum": [
-                                          "REGISTRY"
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  "triggerName": {
-                                    "type": "string"
-                                  },
-                                  "input": {
-                                    "type": "object",
-                                    "additionalProperties": {}
-                                  },
-                                  "inputUiInfo": {
-                                    "additionalProperties": true,
-                                    "type": "object",
-                                    "properties": {
-                                      "currentSelectedData": {},
-                                      "customizedInputs": {
-                                        "type": "object",
-                                        "additionalProperties": {}
-                                      },
-                                      "lastTestDate": {
-                                        "type": "string"
-                                      }
-                                    }
-                                  }
-                                },
-                                "required": [
-                                  "pieceName",
-                                  "pieceVersion",
-                                  "pieceType",
-                                  "packageType",
-                                  "triggerName",
-                                  "input",
-                                  "inputUiInfo"
-                                ]
-                              }
-                            },
-                            "required": [
-                              "name",
-                              "valid",
-                              "displayName",
-                              "type",
-                              "settings"
-                            ]
-                          }
-                        ]
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "request"
-                    ]
-                  },
-                  {
-                    "title": "Change Folder",
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "CHANGE_FOLDER"
-                        ]
-                      },
-                      "request": {
-                        "type": "object",
-                        "properties": {
-                          "folderId": {
-                            "type": "string",
-                            "nullable": true
-                          }
-                        }
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "request"
-                    ]
-                  },
-                  {
-                    "title": "Duplicate Action",
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "DUPLICATE_ACTION"
-                        ]
-                      },
-                      "request": {
-                        "type": "object",
-                        "properties": {
-                          "stepName": {
-                            "type": "string"
-                          }
-                        },
-                        "required": [
-                          "stepName"
-                        ]
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "request"
-                    ]
-                  }
-                ]
-              },
-              "project": {
-                "type": "object",
-                "properties": {
-                  "displayName": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "displayName"
-                ]
-              }
-            },
-            "required": [
-              "flowVersion",
-              "request"
-            ]
-          }
-        },
-        "required": [
-          "id",
-          "created",
-          "updated",
-          "platformId",
-          "action",
-          "data"
-        ]
-      },
       "connection.upserted": {
         "type": "object",
         "properties": {
@@ -1943,6 +225,9 @@
             "type": "string"
           },
           "projectId": {
+            "type": "string"
+          },
+          "projectDisplayName": {
             "type": "string"
           },
           "userId": {
@@ -1977,17 +262,27 @@
                 "description": "App connection is a connection to an external app.",
                 "type": "object",
                 "properties": {
-                  "id": {
-                    "type": "string"
-                  },
-                  "created": {
-                    "type": "string"
-                  },
-                  "updated": {
-                    "type": "string"
-                  },
                   "name": {
                     "type": "string"
+                  },
+                  "pieceName": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "ACTIVE"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          "ERROR"
+                        ]
+                      }
+                    ]
                   },
                   "type": {
                     "anyOf": [
@@ -2029,34 +324,24 @@
                       }
                     ]
                   },
-                  "pieceName": {
+                  "id": {
                     "type": "string"
                   },
-                  "status": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "enum": [
-                          "ACTIVE"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "enum": [
-                          "ERROR"
-                        ]
-                      }
-                    ]
+                  "created": {
+                    "type": "string"
+                  },
+                  "updated": {
+                    "type": "string"
                   }
                 },
                 "required": [
+                  "name",
+                  "pieceName",
+                  "status",
+                  "type",
                   "id",
                   "created",
-                  "updated",
-                  "name",
-                  "type",
-                  "pieceName",
-                  "status"
+                  "updated"
                 ]
               },
               "project": {
@@ -2103,6 +388,9 @@
           "projectId": {
             "type": "string"
           },
+          "projectDisplayName": {
+            "type": "string"
+          },
           "userId": {
             "type": "string"
           },
@@ -2135,17 +423,27 @@
                 "description": "App connection is a connection to an external app.",
                 "type": "object",
                 "properties": {
-                  "id": {
-                    "type": "string"
-                  },
-                  "created": {
-                    "type": "string"
-                  },
-                  "updated": {
-                    "type": "string"
-                  },
                   "name": {
                     "type": "string"
+                  },
+                  "pieceName": {
+                    "type": "string"
+                  },
+                  "status": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "ACTIVE"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          "ERROR"
+                        ]
+                      }
+                    ]
                   },
                   "type": {
                     "anyOf": [
@@ -2187,34 +485,24 @@
                       }
                     ]
                   },
-                  "pieceName": {
+                  "id": {
                     "type": "string"
                   },
-                  "status": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "enum": [
-                          "ACTIVE"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "enum": [
-                          "ERROR"
-                        ]
-                      }
-                    ]
+                  "created": {
+                    "type": "string"
+                  },
+                  "updated": {
+                    "type": "string"
                   }
                 },
                 "required": [
+                  "name",
+                  "pieceName",
+                  "status",
+                  "type",
                   "id",
                   "created",
-                  "updated",
-                  "name",
-                  "type",
-                  "pieceName",
-                  "status"
+                  "updated"
                 ]
               },
               "project": {
@@ -2261,6 +549,9 @@
           "projectId": {
             "type": "string"
           },
+          "projectDisplayName": {
+            "type": "string"
+          },
           "userId": {
             "type": "string"
           },
@@ -2301,21 +592,21 @@
                   "id": {
                     "type": "string"
                   },
+                  "displayName": {
+                    "type": "string"
+                  },
                   "created": {
                     "type": "string"
                   },
                   "updated": {
                     "type": "string"
-                  },
-                  "displayName": {
-                    "type": "string"
                   }
                 },
                 "required": [
                   "id",
+                  "displayName",
                   "created",
-                  "updated",
-                  "displayName"
+                  "updated"
                 ]
               },
               "project": {
@@ -2362,6 +653,9 @@
           "projectId": {
             "type": "string"
           },
+          "projectDisplayName": {
+            "type": "string"
+          },
           "userId": {
             "type": "string"
           },
@@ -2402,21 +696,21 @@
                   "id": {
                     "type": "string"
                   },
+                  "displayName": {
+                    "type": "string"
+                  },
                   "created": {
                     "type": "string"
                   },
                   "updated": {
                     "type": "string"
-                  },
-                  "displayName": {
-                    "type": "string"
                   }
                 },
                 "required": [
                   "id",
+                  "displayName",
                   "created",
-                  "updated",
-                  "displayName"
+                  "updated"
                 ]
               },
               "project": {
@@ -2463,6 +757,9 @@
           "projectId": {
             "type": "string"
           },
+          "projectDisplayName": {
+            "type": "string"
+          },
           "userId": {
             "type": "string"
           },
@@ -2503,21 +800,21 @@
                   "id": {
                     "type": "string"
                   },
+                  "displayName": {
+                    "type": "string"
+                  },
                   "created": {
                     "type": "string"
                   },
                   "updated": {
                     "type": "string"
-                  },
-                  "displayName": {
-                    "type": "string"
                   }
                 },
                 "required": [
                   "id",
+                  "displayName",
                   "created",
-                  "updated",
-                  "displayName"
+                  "updated"
                 ]
               },
               "project": {
@@ -2564,6 +861,9 @@
           "projectId": {
             "type": "string"
           },
+          "projectDisplayName": {
+            "type": "string"
+          },
           "userId": {
             "type": "string"
           },
@@ -2597,6 +897,31 @@
                 "properties": {
                   "id": {
                     "type": "string"
+                  },
+                  "startTime": {
+                    "type": "string"
+                  },
+                  "finishTime": {
+                    "type": "string"
+                  },
+                  "duration": {
+                    "type": "number"
+                  },
+                  "environment": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "PRODUCTION"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          "TESTING"
+                        ]
+                      }
+                    ]
                   },
                   "flowId": {
                     "type": "string"
@@ -2658,42 +983,16 @@
                         ]
                       }
                     ]
-                  },
-                  "duration": {
-                    "type": "number"
-                  },
-                  "startTime": {
-                    "type": "string"
-                  },
-                  "finishTime": {
-                    "type": "string"
-                  },
-                  "environment": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "enum": [
-                          "PRODUCTION"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "enum": [
-                          "TESTING"
-                        ]
-                      }
-                    ]
                   }
                 },
                 "required": [
                   "id",
+                  "startTime",
+                  "environment",
                   "flowId",
                   "flowVersionId",
                   "flowDisplayName",
-                  "status",
-                  "startTime",
-                  "finishTime",
-                  "environment"
+                  "status"
                 ]
               },
               "project": {
@@ -2740,6 +1039,9 @@
           "projectId": {
             "type": "string"
           },
+          "projectDisplayName": {
+            "type": "string"
+          },
           "userId": {
             "type": "string"
           },
@@ -2773,6 +1075,31 @@
                 "properties": {
                   "id": {
                     "type": "string"
+                  },
+                  "startTime": {
+                    "type": "string"
+                  },
+                  "finishTime": {
+                    "type": "string"
+                  },
+                  "duration": {
+                    "type": "number"
+                  },
+                  "environment": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "PRODUCTION"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          "TESTING"
+                        ]
+                      }
+                    ]
                   },
                   "flowId": {
                     "type": "string"
@@ -2834,42 +1161,16 @@
                         ]
                       }
                     ]
-                  },
-                  "duration": {
-                    "type": "number"
-                  },
-                  "startTime": {
-                    "type": "string"
-                  },
-                  "finishTime": {
-                    "type": "string"
-                  },
-                  "environment": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "enum": [
-                          "PRODUCTION"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "enum": [
-                          "TESTING"
-                        ]
-                      }
-                    ]
                   }
                 },
                 "required": [
                   "id",
+                  "startTime",
+                  "environment",
                   "flowId",
                   "flowVersionId",
                   "flowDisplayName",
-                  "status",
-                  "startTime",
-                  "finishTime",
-                  "environment"
+                  "status"
                 ]
               },
               "project": {
@@ -2916,6 +1217,9 @@
           "projectId": {
             "type": "string"
           },
+          "projectDisplayName": {
+            "type": "string"
+          },
           "userId": {
             "type": "string"
           },
@@ -2959,10 +1263,10 @@
               "user": {
                 "type": "object",
                 "properties": {
-                  "id": {
+                  "email": {
                     "type": "string"
                   },
-                  "email": {
+                  "id": {
                     "type": "string"
                   },
                   "firstName": {
@@ -2973,8 +1277,8 @@
                   }
                 },
                 "required": [
-                  "id",
                   "email",
+                  "id",
                   "firstName",
                   "lastName"
                 ]
@@ -3012,6 +1316,9 @@
           "projectId": {
             "type": "string"
           },
+          "projectDisplayName": {
+            "type": "string"
+          },
           "userId": {
             "type": "string"
           },
@@ -3049,10 +1356,10 @@
               "user": {
                 "type": "object",
                 "properties": {
-                  "id": {
+                  "email": {
                     "type": "string"
                   },
-                  "email": {
+                  "id": {
                     "type": "string"
                   },
                   "firstName": {
@@ -3063,8 +1370,8 @@
                   }
                 },
                 "required": [
-                  "id",
                   "email",
+                  "id",
                   "firstName",
                   "lastName"
                 ]
@@ -3099,6 +1406,9 @@
           "projectId": {
             "type": "string"
           },
+          "projectDisplayName": {
+            "type": "string"
+          },
           "userId": {
             "type": "string"
           },
@@ -3136,10 +1446,10 @@
               "user": {
                 "type": "object",
                 "properties": {
-                  "id": {
+                  "email": {
                     "type": "string"
                   },
-                  "email": {
+                  "id": {
                     "type": "string"
                   },
                   "firstName": {
@@ -3150,8 +1460,8 @@
                   }
                 },
                 "required": [
-                  "id",
                   "email",
+                  "id",
                   "firstName",
                   "lastName"
                 ]
@@ -3186,6 +1496,9 @@
           "projectId": {
             "type": "string"
           },
+          "projectDisplayName": {
+            "type": "string"
+          },
           "userId": {
             "type": "string"
           },
@@ -3223,10 +1536,10 @@
               "user": {
                 "type": "object",
                 "properties": {
-                  "id": {
+                  "email": {
                     "type": "string"
                   },
-                  "email": {
+                  "id": {
                     "type": "string"
                   },
                   "firstName": {
@@ -3237,8 +1550,8 @@
                   }
                 },
                 "required": [
-                  "id",
                   "email",
+                  "id",
                   "firstName",
                   "lastName"
                 ]
@@ -3271,6 +1584,9 @@
             "type": "string"
           },
           "projectId": {
+            "type": "string"
+          },
+          "projectDisplayName": {
             "type": "string"
           },
           "userId": {
@@ -3329,6 +1645,253 @@
           "data"
         ]
       },
+      "flow-template": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "created": {
+            "type": "string"
+          },
+          "updated": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "PLATFORM"
+                ]
+              },
+              {
+                "type": "string",
+                "enum": [
+                  "PROJECT"
+                ]
+              }
+            ]
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "pieces": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "blogUrl": {
+            "type": "string"
+          },
+          "template": {
+            "type": "object",
+            "properties": {
+              "displayName": {
+                "type": "string"
+              },
+              "trigger": {
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "valid": {
+                        "type": "boolean"
+                      },
+                      "displayName": {
+                        "type": "string"
+                      },
+                      "nextAction": {},
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "PIECE_TRIGGER"
+                        ]
+                      },
+                      "settings": {
+                        "type": "object",
+                        "properties": {
+                          "pieceName": {
+                            "type": "string"
+                          },
+                          "pieceVersion": {
+                            "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$",
+                            "type": "string"
+                          },
+                          "pieceType": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "CUSTOM"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "OFFICIAL"
+                                ]
+                              }
+                            ]
+                          },
+                          "packageType": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "ARCHIVE"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "REGISTRY"
+                                ]
+                              }
+                            ]
+                          },
+                          "triggerName": {
+                            "type": "string"
+                          },
+                          "input": {
+                            "type": "object",
+                            "additionalProperties": {}
+                          },
+                          "inputUiInfo": {
+                            "additionalProperties": true,
+                            "type": "object",
+                            "properties": {
+                              "currentSelectedData": {},
+                              "customizedInputs": {
+                                "type": "object",
+                                "additionalProperties": {}
+                              },
+                              "lastTestDate": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "required": [
+                          "pieceName",
+                          "pieceVersion",
+                          "pieceType",
+                          "packageType",
+                          "input",
+                          "inputUiInfo"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "name",
+                      "valid",
+                      "displayName",
+                      "type",
+                      "settings"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "name": {
+                        "type": "string"
+                      },
+                      "valid": {
+                        "type": "boolean"
+                      },
+                      "displayName": {
+                        "type": "string"
+                      },
+                      "nextAction": {},
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "EMPTY"
+                        ]
+                      },
+                      "settings": {}
+                    },
+                    "required": [
+                      "name",
+                      "valid",
+                      "displayName",
+                      "type",
+                      "settings"
+                    ]
+                  }
+                ]
+              },
+              "valid": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "displayName",
+              "trigger",
+              "valid"
+            ]
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "platformId": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "created",
+          "updated",
+          "name",
+          "description",
+          "type",
+          "tags",
+          "pieces",
+          "template",
+          "projectId",
+          "platformId"
+        ]
+      },
+      "folder": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "created": {
+            "type": "string"
+          },
+          "updated": {
+            "type": "string"
+          },
+          "projectId": {
+            "type": "string"
+          },
+          "displayName": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "created",
+          "updated",
+          "projectId",
+          "displayName"
+        ]
+      },
       "user-invitation": {
         "type": "object",
         "properties": {
@@ -3380,51 +1943,26 @@
             "type": "string"
           },
           "platformRole": {
-            "anyOf": [
-              {
-                "type": "string",
-                "enum": [
-                  "ADMIN"
-                ]
-              },
-              {
-                "type": "string",
-                "enum": [
-                  "MEMBER"
-                ]
-              }
-            ]
+            "type": "string",
+            "enum": [
+              "ADMIN",
+              "MEMBER"
+            ],
+            "nullable": true
           },
           "projectId": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "projectRole": {
-            "anyOf": [
-              {
-                "type": "string",
-                "enum": [
-                  "ADMIN"
-                ]
-              },
-              {
-                "type": "string",
-                "enum": [
-                  "EDITOR"
-                ]
-              },
-              {
-                "type": "string",
-                "enum": [
-                  "OPERATOR"
-                ]
-              },
-              {
-                "type": "string",
-                "enum": [
-                  "VIEWER"
-                ]
-              }
-            ]
+            "type": "string",
+            "enum": [
+              "ADMIN",
+              "EDITOR",
+              "OPERATOR",
+              "VIEWER"
+            ],
+            "nullable": true
           }
         },
         "required": [
@@ -3691,6 +2229,9 @@
               },
               "timezone": {
                 "type": "string"
+              },
+              "failureCount": {
+                "type": "number"
               }
             },
             "required": [
@@ -3937,7 +2478,6 @@
           "flowDisplayName",
           "status",
           "startTime",
-          "finishTime",
           "environment",
           "steps"
         ]
@@ -4493,7 +3033,9 @@
                   },
                   "extra": {
                     "type": "object",
-                    "additionalProperties": {}
+                    "additionalProperties": {
+                      "type": "string"
+                    }
                   },
                   "type": {
                     "type": "string",
@@ -5298,6 +3840,7 @@
                             },
                             "required": [
                               "displayName",
+                              "properties",
                               "type",
                               "required"
                             ]
@@ -5835,7 +4378,9 @@
                               },
                               "extra": {
                                 "type": "object",
-                                "additionalProperties": {}
+                                "additionalProperties": {
+                                  "type": "string"
+                                }
                               },
                               "type": {
                                 "type": "string",
@@ -6575,6 +5120,7 @@
                             },
                             "required": [
                               "displayName",
+                              "properties",
                               "type",
                               "required"
                             ]
@@ -7112,7 +5658,9 @@
                               },
                               "extra": {
                                 "type": "object",
-                                "additionalProperties": {}
+                                "additionalProperties": {
+                                  "type": "string"
+                                }
                               },
                               "type": {
                                 "type": "string",
@@ -7411,7 +5959,187 @@
     }
   },
   "paths": {
-    "/v1/flows/": {
+    "/v1/folders": {
+      "post": {
+        "tags": [
+          "folders"
+        ],
+        "description": "Create a new folder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "displayName": {
+                    "type": "string"
+                  },
+                  "projectId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "displayName",
+                  "projectId"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "folders"
+        ],
+        "description": "List folders",
+        "parameters": [
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "limit",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "cursor",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "projectId",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/v1/folders/{id}": {
+      "post": {
+        "tags": [
+          "folders"
+        ],
+        "description": "Update an existing folder",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "displayName": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "displayName"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "folders"
+        ],
+        "description": "Get a folder by id",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "folders"
+        ],
+        "description": "Delete a folder",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/v1/flows": {
       "post": {
         "tags": [
           "flows"
@@ -7501,6 +6229,9 @@
                         },
                         "timezone": {
                           "type": "string"
+                        },
+                        "failureCount": {
+                          "type": "number"
                         }
                       },
                       "required": [
@@ -7560,8 +6291,8 @@
                                       "type": "string"
                                     },
                                     "pieceVersion": {
-                                      "type": "string",
-                                      "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$"
+                                      "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$",
+                                      "type": "string"
                                     },
                                     "pieceType": {
                                       "anyOf": [
@@ -7622,7 +6353,6 @@
                                     "pieceVersion",
                                     "pieceType",
                                     "packageType",
-                                    "triggerName",
                                     "input",
                                     "inputUiInfo"
                                   ]
@@ -7749,20 +6479,23 @@
           },
           {
             "schema": {
-              "anyOf": [
-                {
-                  "type": "string",
-                  "enum": [
-                    "ENABLED"
-                  ]
-                },
-                {
-                  "type": "string",
-                  "enum": [
-                    "DISABLED"
-                  ]
-                }
-              ]
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "ENABLED"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "DISABLED"
+                    ]
+                  }
+                ]
+              }
             },
             "in": "query",
             "name": "status",
@@ -7775,6 +6508,14 @@
             "in": "query",
             "name": "projectId",
             "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "name",
+            "required": false
           }
         ],
         "security": [
@@ -7841,6 +6582,9 @@
                               },
                               "timezone": {
                                 "type": "string"
+                              },
+                              "failureCount": {
+                                "type": "number"
                               }
                             },
                             "required": [
@@ -7900,8 +6644,8 @@
                                             "type": "string"
                                           },
                                           "pieceVersion": {
-                                            "type": "string",
-                                            "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$"
+                                            "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$",
+                                            "type": "string"
                                           },
                                           "pieceType": {
                                             "anyOf": [
@@ -7962,7 +6706,6 @@
                                           "pieceVersion",
                                           "pieceType",
                                           "packageType",
-                                          "triggerName",
                                           "input",
                                           "inputUiInfo"
                                         ]
@@ -8295,8 +7038,8 @@
                                         "type": "string"
                                       },
                                       "pieceVersion": {
-                                        "type": "string",
-                                        "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$"
+                                        "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$",
+                                        "type": "string"
                                       },
                                       "pieceType": {
                                         "anyOf": [
@@ -8357,7 +7100,6 @@
                                       "pieceVersion",
                                       "pieceType",
                                       "packageType",
-                                      "triggerName",
                                       "input",
                                       "inputUiInfo"
                                     ]
@@ -8686,8 +7428,8 @@
                                     "type": "string"
                                   },
                                   "pieceVersion": {
-                                    "type": "string",
-                                    "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$"
+                                    "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$",
+                                    "type": "string"
                                   },
                                   "actionName": {
                                     "type": "string"
@@ -9222,8 +7964,8 @@
                                         "type": "string"
                                       },
                                       "pieceVersion": {
-                                        "type": "string",
-                                        "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$"
+                                        "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$",
+                                        "type": "string"
                                       },
                                       "actionName": {
                                         "type": "string"
@@ -9579,8 +8321,8 @@
                                     "type": "string"
                                   },
                                   "pieceVersion": {
-                                    "type": "string",
-                                    "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$"
+                                    "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$",
+                                    "type": "string"
                                   },
                                   "pieceType": {
                                     "anyOf": [
@@ -9641,7 +8383,6 @@
                                   "pieceVersion",
                                   "pieceType",
                                   "packageType",
-                                  "triggerName",
                                   "input",
                                   "inputUiInfo"
                                 ]
@@ -9825,6 +8566,9 @@
                         },
                         "timezone": {
                           "type": "string"
+                        },
+                        "failureCount": {
+                          "type": "number"
                         }
                       },
                       "required": [
@@ -9884,8 +8628,8 @@
                                       "type": "string"
                                     },
                                     "pieceVersion": {
-                                      "type": "string",
-                                      "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$"
+                                      "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$",
+                                      "type": "string"
                                     },
                                     "pieceType": {
                                       "anyOf": [
@@ -9946,7 +8690,6 @@
                                     "pieceVersion",
                                     "pieceType",
                                     "packageType",
-                                    "triggerName",
                                     "input",
                                     "inputUiInfo"
                                   ]
@@ -10064,12 +8807,22 @@
         ],
         "responses": {
           "204": {
-            "description": "Default Response"
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "not": {}
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
-    "/v1/flow-runs/": {
+    "/v1/flow-runs": {
       "get": {
         "tags": [
           "flow-runs"
@@ -10078,8 +8831,11 @@
         "parameters": [
           {
             "schema": {
-              "pattern": "^[0-9a-zA-Z]{21}$",
-              "type": "string"
+              "type": "array",
+              "items": {
+                "pattern": "^[0-9a-zA-Z]{21}$",
+                "type": "string"
+              }
             },
             "in": "query",
             "name": "flowId",
@@ -10243,6 +8999,10 @@
                           "flowDisplayName": {
                             "type": "string"
                           },
+                          "logsFileId": {
+                            "type": "string",
+                            "nullable": true
+                          },
                           "tasks": {
                             "type": "number"
                           },
@@ -10334,7 +9094,6 @@
                           "flowDisplayName",
                           "status",
                           "startTime",
-                          "finishTime",
                           "environment"
                         ]
                       }
@@ -10416,6 +9175,10 @@
                     },
                     "flowDisplayName": {
                       "type": "string"
+                    },
+                    "logsFileId": {
+                      "type": "string",
+                      "nullable": true
                     },
                     "tasks": {
                       "type": "number"
@@ -10512,7 +9275,6 @@
                     "flowDisplayName",
                     "status",
                     "startTime",
-                    "finishTime",
                     "environment",
                     "steps"
                   ]
@@ -10523,7 +9285,7 @@
         }
       }
     },
-    "/v1/app-connections/": {
+    "/v1/app-connections": {
       "post": {
         "tags": [
           "app-connections"
@@ -10564,6 +9326,7 @@
                             ]
                           },
                           "secret_text": {
+                            "minLength": 1,
                             "type": "string"
                           }
                         },
@@ -10605,9 +9368,37 @@
                         "type": "object",
                         "properties": {
                           "client_id": {
+                            "minLength": 1,
                             "type": "string"
                           },
+                          "code": {
+                            "minLength": 1,
+                            "type": "string"
+                          },
+                          "code_challenge": {
+                            "type": "string"
+                          },
+                          "scope": {
+                            "type": "string"
+                          },
+                          "authorization_method": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "HEADER"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "BODY"
+                                ]
+                              }
+                            ]
+                          },
                           "client_secret": {
+                            "minLength": 1,
                             "type": "string"
                           },
                           "grant_type": {
@@ -10630,32 +9421,8 @@
                             "type": "object",
                             "additionalProperties": {}
                           },
-                          "scope": {
-                            "type": "string"
-                          },
-                          "code": {
-                            "type": "string"
-                          },
-                          "authorization_method": {
-                            "anyOf": [
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "HEADER"
-                                ]
-                              },
-                              {
-                                "type": "string",
-                                "enum": [
-                                  "BODY"
-                                ]
-                              }
-                            ]
-                          },
-                          "code_challenge": {
-                            "type": "string"
-                          },
                           "redirect_url": {
+                            "minLength": 1,
                             "type": "string"
                           },
                           "type": {
@@ -10667,9 +9434,9 @@
                         },
                         "required": [
                           "client_id",
-                          "client_secret",
-                          "scope",
                           "code",
+                          "scope",
+                          "client_secret",
                           "redirect_url",
                           "type"
                         ]
@@ -10707,6 +9474,17 @@
                         "type": "object",
                         "properties": {
                           "client_id": {
+                            "minLength": 1,
+                            "type": "string"
+                          },
+                          "code": {
+                            "minLength": 1,
+                            "type": "string"
+                          },
+                          "code_challenge": {
+                            "type": "string"
+                          },
+                          "scope": {
                             "type": "string"
                           },
                           "authorization_method": {
@@ -10725,20 +9503,11 @@
                               }
                             ]
                           },
-                          "code": {
-                            "type": "string"
-                          },
-                          "code_challenge": {
-                            "type": "string"
-                          },
                           "props": {
                             "type": "object",
                             "additionalProperties": {
                               "type": "string"
                             }
-                          },
-                          "scope": {
-                            "type": "string"
                           },
                           "type": {
                             "type": "string",
@@ -10787,6 +9556,17 @@
                         "type": "object",
                         "properties": {
                           "client_id": {
+                            "minLength": 1,
+                            "type": "string"
+                          },
+                          "code": {
+                            "minLength": 1,
+                            "type": "string"
+                          },
+                          "code_challenge": {
+                            "type": "string"
+                          },
+                          "scope": {
                             "type": "string"
                           },
                           "authorization_method": {
@@ -10805,20 +9585,11 @@
                               }
                             ]
                           },
-                          "code": {
-                            "type": "string"
-                          },
-                          "code_challenge": {
-                            "type": "string"
-                          },
                           "props": {
                             "type": "object",
                             "additionalProperties": {
                               "type": "string"
                             }
-                          },
-                          "scope": {
-                            "type": "string"
                           },
                           "type": {
                             "type": "string",
@@ -10827,6 +9598,7 @@
                             ]
                           },
                           "redirect_url": {
+                            "minLength": 1,
                             "type": "string"
                           }
                         },
@@ -10871,9 +9643,11 @@
                         "type": "object",
                         "properties": {
                           "username": {
+                            "minLength": 1,
                             "type": "string"
                           },
                           "password": {
+                            "minLength": 1,
                             "type": "string"
                           },
                           "type": {
@@ -10998,6 +9772,30 @@
             },
             "in": "query",
             "name": "name",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "enum": [
+                      "ACTIVE"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "enum": [
+                      "ERROR"
+                    ]
+                  }
+                ]
+              }
+            },
+            "in": "query",
+            "name": "status",
             "required": false
           },
           {
@@ -11137,85 +9935,6 @@
         }
       }
     },
-    "/v1/app-connections/validate-connection-name": {
-      "post": {
-        "tags": [
-          "app-connections"
-        ],
-        "description": "Validate app connection name",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "description": "Request for validating connection name",
-                "type": "object",
-                "properties": {
-                  "connectionName": {
-                    "type": "string"
-                  }
-                },
-                "required": [
-                  "connectionName"
-                ]
-              }
-            }
-          },
-          "required": true,
-          "description": "Request for validating connection name"
-        },
-        "security": [
-          {
-            "apiKey": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Response for validating connection name",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "Response for validating connection name",
-                  "type": "object",
-                  "properties": {
-                    "isValid": {
-                      "type": "boolean"
-                    },
-                    "error": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "isValid"
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Response for validating connection name",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "description": "Response for validating connection name",
-                  "type": "object",
-                  "properties": {
-                    "isValid": {
-                      "type": "boolean"
-                    },
-                    "error": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "isValid"
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/v1/app-connections/{id}": {
       "delete": {
         "tags": [
@@ -11240,7 +9959,17 @@
         ],
         "responses": {
           "204": {
-            "description": "Default Response"
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "not": {}
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -11387,6 +10116,9 @@
                     "gitSyncEnabled": {
                       "type": "boolean"
                     },
+                    "analyticsEnabled": {
+                      "type": "boolean"
+                    },
                     "showPoweredBy": {
                       "type": "boolean"
                     },
@@ -11460,6 +10192,7 @@
                     "filteredPieceBehavior",
                     "cloudAuthEnabled",
                     "gitSyncEnabled",
+                    "analyticsEnabled",
                     "showPoweredBy",
                     "auditLogEnabled",
                     "embeddingEnabled",
@@ -11485,93 +10218,107 @@
         }
       }
     },
-    "/v1/user-invitations/": {
+    "/v1/user-invitations": {
       "post": {
         "tags": [
           "user-invitations"
         ],
+        "description": "Send a user invitation to a user. If the user already has an invitation, the invitation will be updated.",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string"
+                "anyOf": [
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "PROJECT"
+                        ]
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "projectId": {
+                        "type": "string"
+                      },
+                      "projectRole": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "ADMIN"
+                            ]
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              "EDITOR"
+                            ]
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              "OPERATOR"
+                            ]
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              "VIEWER"
+                            ]
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "type",
+                      "email",
+                      "projectId",
+                      "projectRole"
+                    ]
                   },
-                  "type": {
-                    "anyOf": [
-                      {
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
                         "type": "string",
                         "enum": [
                           "PLATFORM"
                         ]
                       },
-                      {
-                        "type": "string",
-                        "enum": [
-                          "PROJECT"
+                      "email": {
+                        "type": "string"
+                      },
+                      "platformRole": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "ADMIN"
+                            ]
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              "MEMBER"
+                            ]
+                          }
                         ]
                       }
-                    ]
-                  },
-                  "platformRole": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "enum": [
-                          "ADMIN"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "enum": [
-                          "MEMBER"
-                        ]
-                      }
-                    ]
-                  },
-                  "projectId": {
-                    "type": "string",
-                    "nullable": true
-                  },
-                  "projectRole": {
-                    "anyOf": [
-                      {
-                        "type": "string",
-                        "enum": [
-                          "ADMIN"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "enum": [
-                          "EDITOR"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "enum": [
-                          "OPERATOR"
-                        ]
-                      },
-                      {
-                        "type": "string",
-                        "enum": [
-                          "VIEWER"
-                        ]
-                      }
+                    },
+                    "required": [
+                      "type",
+                      "email",
+                      "platformRole"
                     ]
                   }
-                },
-                "required": [
-                  "email",
-                  "type"
                 ]
               }
             }
-          },
-          "required": true
+          }
         },
         "security": [
           {
@@ -11634,51 +10381,26 @@
                       "type": "string"
                     },
                     "platformRole": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "enum": [
-                            "ADMIN"
-                          ]
-                        },
-                        {
-                          "type": "string",
-                          "enum": [
-                            "MEMBER"
-                          ]
-                        }
-                      ]
+                      "type": "string",
+                      "enum": [
+                        "ADMIN",
+                        "MEMBER"
+                      ],
+                      "nullable": true
                     },
                     "projectId": {
-                      "type": "string"
+                      "type": "string",
+                      "nullable": true
                     },
                     "projectRole": {
-                      "anyOf": [
-                        {
-                          "type": "string",
-                          "enum": [
-                            "ADMIN"
-                          ]
-                        },
-                        {
-                          "type": "string",
-                          "enum": [
-                            "EDITOR"
-                          ]
-                        },
-                        {
-                          "type": "string",
-                          "enum": [
-                            "OPERATOR"
-                          ]
-                        },
-                        {
-                          "type": "string",
-                          "enum": [
-                            "VIEWER"
-                          ]
-                        }
-                      ]
+                      "type": "string",
+                      "enum": [
+                        "ADMIN",
+                        "EDITOR",
+                        "OPERATOR",
+                        "VIEWER"
+                      ],
+                      "nullable": true
                     },
                     "link": {
                       "type": "string"
@@ -11743,6 +10465,15 @@
           },
           {
             "schema": {
+              "type": "string",
+              "nullable": true
+            },
+            "in": "query",
+            "name": "projectId",
+            "required": false
+          },
+          {
+            "schema": {
               "anyOf": [
                 {
                   "type": "string",
@@ -11797,7 +10528,409 @@
         ],
         "responses": {
           "204": {
-            "description": "Default Response"
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "not": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/projects": {
+      "post": {
+        "tags": [
+          "projects"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "displayName": {
+                    "type": "string"
+                  },
+                  "externalId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "displayName"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "created": {
+                      "type": "string"
+                    },
+                    "updated": {
+                      "type": "string"
+                    },
+                    "ownerId": {
+                      "type": "string"
+                    },
+                    "displayName": {
+                      "type": "string"
+                    },
+                    "notifyStatus": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "enum": [
+                            "NEVER"
+                          ]
+                        },
+                        {
+                          "type": "string",
+                          "enum": [
+                            "ALWAYS"
+                          ]
+                        },
+                        {
+                          "type": "string",
+                          "enum": [
+                            "NEW_ISSUE"
+                          ]
+                        }
+                      ]
+                    },
+                    "platformId": {
+                      "pattern": "^[0-9a-zA-Z]{21}$",
+                      "type": "string"
+                    },
+                    "externalId": {
+                      "type": "string"
+                    },
+                    "usage": {
+                      "type": "object",
+                      "properties": {
+                        "tasks": {
+                          "type": "number"
+                        },
+                        "teamMembers": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "tasks",
+                        "teamMembers"
+                      ]
+                    },
+                    "plan": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "created": {
+                          "type": "string"
+                        },
+                        "updated": {
+                          "type": "string"
+                        },
+                        "projectId": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "minimumPollingInterval": {
+                          "type": "number"
+                        },
+                        "piecesFilterType": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "NONE"
+                              ]
+                            },
+                            {
+                              "type": "string",
+                              "enum": [
+                                "ALLOWED"
+                              ]
+                            }
+                          ]
+                        },
+                        "pieces": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "connections": {
+                          "type": "number"
+                        },
+                        "teamMembers": {
+                          "type": "number"
+                        },
+                        "tasks": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "created",
+                        "updated",
+                        "projectId",
+                        "name",
+                        "minimumPollingInterval",
+                        "piecesFilterType",
+                        "pieces",
+                        "connections",
+                        "teamMembers",
+                        "tasks"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "created",
+                    "updated",
+                    "ownerId",
+                    "displayName",
+                    "notifyStatus",
+                    "platformId",
+                    "usage",
+                    "plan"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "projects"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "externalId",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "limit",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "cursor",
+            "required": false
+          }
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "created": {
+                            "type": "string"
+                          },
+                          "updated": {
+                            "type": "string"
+                          },
+                          "ownerId": {
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "type": "string"
+                          },
+                          "notifyStatus": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "NEVER"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "ALWAYS"
+                                ]
+                              },
+                              {
+                                "type": "string",
+                                "enum": [
+                                  "NEW_ISSUE"
+                                ]
+                              }
+                            ]
+                          },
+                          "platformId": {
+                            "pattern": "^[0-9a-zA-Z]{21}$",
+                            "type": "string"
+                          },
+                          "externalId": {
+                            "type": "string"
+                          },
+                          "usage": {
+                            "type": "object",
+                            "properties": {
+                              "tasks": {
+                                "type": "number"
+                              },
+                              "teamMembers": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "tasks",
+                              "teamMembers"
+                            ]
+                          },
+                          "plan": {
+                            "type": "object",
+                            "properties": {
+                              "id": {
+                                "type": "string"
+                              },
+                              "created": {
+                                "type": "string"
+                              },
+                              "updated": {
+                                "type": "string"
+                              },
+                              "projectId": {
+                                "type": "string"
+                              },
+                              "name": {
+                                "type": "string"
+                              },
+                              "minimumPollingInterval": {
+                                "type": "number"
+                              },
+                              "piecesFilterType": {
+                                "anyOf": [
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "NONE"
+                                    ]
+                                  },
+                                  {
+                                    "type": "string",
+                                    "enum": [
+                                      "ALLOWED"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "pieces": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "connections": {
+                                "type": "number"
+                              },
+                              "teamMembers": {
+                                "type": "number"
+                              },
+                              "tasks": {
+                                "type": "number"
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "created",
+                              "updated",
+                              "projectId",
+                              "name",
+                              "minimumPollingInterval",
+                              "piecesFilterType",
+                              "pieces",
+                              "connections",
+                              "teamMembers",
+                              "tasks"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "created",
+                          "updated",
+                          "ownerId",
+                          "displayName",
+                          "notifyStatus",
+                          "platformId",
+                          "usage",
+                          "plan"
+                        ]
+                      }
+                    },
+                    "next": {
+                      "description": "Cursor to the next page",
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "previous": {
+                      "description": "Cursor to the previous page",
+                      "type": "string",
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "data"
+                  ]
+                }
+              }
+            }
           }
         }
       }
@@ -11837,6 +10970,36 @@
                   },
                   "displayName": {
                     "type": "string"
+                  },
+                  "plan": {
+                    "type": "object",
+                    "properties": {
+                      "tasks": {
+                        "type": "number"
+                      },
+                      "pieces": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "piecesFilterType": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "NONE"
+                            ]
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              "ALLOWED"
+                            ]
+                          }
+                        ]
+                      }
+                    }
                   }
                 }
               }
@@ -11851,6 +11014,11 @@
             "in": "path",
             "name": "id",
             "required": true
+          }
+        ],
+        "security": [
+          {
+            "apiKey": []
           }
         ],
         "responses": {
@@ -11869,10 +11037,6 @@
                     },
                     "updated": {
                       "type": "string"
-                    },
-                    "deleted": {
-                      "type": "string",
-                      "nullable": true
                     },
                     "ownerId": {
                       "type": "string"
@@ -11908,6 +11072,88 @@
                     },
                     "externalId": {
                       "type": "string"
+                    },
+                    "usage": {
+                      "type": "object",
+                      "properties": {
+                        "tasks": {
+                          "type": "number"
+                        },
+                        "teamMembers": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "tasks",
+                        "teamMembers"
+                      ]
+                    },
+                    "plan": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        },
+                        "created": {
+                          "type": "string"
+                        },
+                        "updated": {
+                          "type": "string"
+                        },
+                        "projectId": {
+                          "type": "string"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "minimumPollingInterval": {
+                          "type": "number"
+                        },
+                        "piecesFilterType": {
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "enum": [
+                                "NONE"
+                              ]
+                            },
+                            {
+                              "type": "string",
+                              "enum": [
+                                "ALLOWED"
+                              ]
+                            }
+                          ]
+                        },
+                        "pieces": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "connections": {
+                          "type": "number"
+                        },
+                        "teamMembers": {
+                          "type": "number"
+                        },
+                        "tasks": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "created",
+                        "updated",
+                        "projectId",
+                        "name",
+                        "minimumPollingInterval",
+                        "piecesFilterType",
+                        "pieces",
+                        "connections",
+                        "teamMembers",
+                        "tasks"
+                      ]
                     }
                   },
                   "required": [
@@ -11917,8 +11163,599 @@
                     "ownerId",
                     "displayName",
                     "notifyStatus",
-                    "platformId"
+                    "platformId",
+                    "usage",
+                    "plan"
                   ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "projects"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/v1/project-members": {
+      "get": {
+        "tags": [
+          "project-members"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "projectId",
+            "required": true
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "cursor",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "number"
+            },
+            "in": "query",
+            "name": "limit",
+            "required": false
+          }
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/v1/project-members/{id}": {
+      "delete": {
+        "tags": [
+          "project-members"
+        ],
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "not": {}
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/pieces": {
+      "post": {
+        "summary": "Add a piece to a platform",
+        "tags": [
+          "pieces"
+        ],
+        "description": "Add a piece to a platform",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  {
+                    "title": "Private Piece",
+                    "type": "object",
+                    "properties": {
+                      "packageType": {
+                        "type": "string",
+                        "enum": [
+                          "ARCHIVE"
+                        ]
+                      },
+                      "scope": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "PROJECT"
+                            ]
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              "PLATFORM"
+                            ]
+                          }
+                        ]
+                      },
+                      "pieceName": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "pieceVersion": {
+                        "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+                        "type": "string"
+                      },
+                      "pieceArchive": {}
+                    },
+                    "required": [
+                      "packageType",
+                      "scope",
+                      "pieceName",
+                      "pieceVersion",
+                      "pieceArchive"
+                    ]
+                  },
+                  {
+                    "title": "NPM Piece",
+                    "type": "object",
+                    "properties": {
+                      "packageType": {
+                        "type": "string",
+                        "enum": [
+                          "REGISTRY"
+                        ]
+                      },
+                      "scope": {
+                        "anyOf": [
+                          {
+                            "type": "string",
+                            "enum": [
+                              "PROJECT"
+                            ]
+                          },
+                          {
+                            "type": "string",
+                            "enum": [
+                              "PLATFORM"
+                            ]
+                          }
+                        ]
+                      },
+                      "pieceName": {
+                        "minLength": 1,
+                        "type": "string"
+                      },
+                      "pieceVersion": {
+                        "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "packageType",
+                      "scope",
+                      "pieceName",
+                      "pieceVersion"
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/flow-templates/{id}": {
+      "get": {
+        "tags": [
+          "flow-templates"
+        ],
+        "description": "Get a flow template",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "flow-templates"
+        ],
+        "description": "Delete a flow template",
+        "parameters": [
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "path",
+            "name": "id",
+            "required": true
+          }
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/v1/flow-templates": {
+      "get": {
+        "tags": [
+          "flow-templates"
+        ],
+        "description": "List flow templates",
+        "parameters": [
+          {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "pieces",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "in": "query",
+            "name": "tags",
+            "required": false
+          },
+          {
+            "schema": {
+              "type": "string"
+            },
+            "in": "query",
+            "name": "search",
+            "required": false
+          }
+        ],
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "flow-templates"
+        ],
+        "description": "Create a flow template",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "template": {
+                    "type": "object",
+                    "properties": {
+                      "displayName": {
+                        "type": "string"
+                      },
+                      "trigger": {
+                        "anyOf": [
+                          {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "valid": {
+                                "type": "boolean"
+                              },
+                              "displayName": {
+                                "type": "string"
+                              },
+                              "nextAction": {},
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "PIECE_TRIGGER"
+                                ]
+                              },
+                              "settings": {
+                                "type": "object",
+                                "properties": {
+                                  "pieceName": {
+                                    "type": "string"
+                                  },
+                                  "pieceVersion": {
+                                    "pattern": "^([~^])?[0-9]+\\.[0-9]+\\.[0-9]+$",
+                                    "type": "string"
+                                  },
+                                  "pieceType": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string",
+                                        "enum": [
+                                          "CUSTOM"
+                                        ]
+                                      },
+                                      {
+                                        "type": "string",
+                                        "enum": [
+                                          "OFFICIAL"
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "packageType": {
+                                    "anyOf": [
+                                      {
+                                        "type": "string",
+                                        "enum": [
+                                          "ARCHIVE"
+                                        ]
+                                      },
+                                      {
+                                        "type": "string",
+                                        "enum": [
+                                          "REGISTRY"
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "triggerName": {
+                                    "type": "string"
+                                  },
+                                  "input": {
+                                    "type": "object",
+                                    "additionalProperties": {}
+                                  },
+                                  "inputUiInfo": {
+                                    "additionalProperties": true,
+                                    "type": "object",
+                                    "properties": {
+                                      "currentSelectedData": {},
+                                      "customizedInputs": {
+                                        "type": "object",
+                                        "additionalProperties": {}
+                                      },
+                                      "lastTestDate": {
+                                        "type": "string"
+                                      }
+                                    }
+                                  }
+                                },
+                                "required": [
+                                  "pieceName",
+                                  "pieceVersion",
+                                  "pieceType",
+                                  "packageType",
+                                  "input",
+                                  "inputUiInfo"
+                                ]
+                              }
+                            },
+                            "required": [
+                              "name",
+                              "valid",
+                              "displayName",
+                              "type",
+                              "settings"
+                            ]
+                          },
+                          {
+                            "type": "object",
+                            "properties": {
+                              "name": {
+                                "type": "string"
+                              },
+                              "valid": {
+                                "type": "boolean"
+                              },
+                              "displayName": {
+                                "type": "string"
+                              },
+                              "nextAction": {},
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "EMPTY"
+                                ]
+                              },
+                              "settings": {}
+                            },
+                            "required": [
+                              "name",
+                              "valid",
+                              "displayName",
+                              "type",
+                              "settings"
+                            ]
+                          }
+                        ]
+                      },
+                      "valid": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "displayName",
+                      "trigger",
+                      "valid"
+                    ]
+                  },
+                  "blogUrl": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "enum": [
+                          "PLATFORM"
+                        ]
+                      },
+                      {
+                        "type": "string",
+                        "enum": [
+                          "PROJECT"
+                        ]
+                      }
+                    ]
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "id": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "template",
+                  "type"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
+    "/v1/git-repos/pull": {
+      "post": {
+        "tags": [
+          "git-repo"
+        ],
+        "description": "Pull all changes from the git repository and overwrite any conflicting changes in the project.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "projectId": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "projectId"
+                ]
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "apiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
                 }
               }
             }

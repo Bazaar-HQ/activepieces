@@ -31,6 +31,8 @@ import { AddTriggerTestStrategy1707087022764 } from './migration/common/17070870
 import { MigrateWebhook1709581196563 } from './migration/common/1709581196563-migrate-webhook'
 import { RemoveShowActivityLog1716105958530 } from './migration/common/1716105958530-RemoveShowActivityLog'
 import { AddDurationForRuns1716725027424 } from './migration/common/1716725027424-AddDurationForRuns'
+import { ChangeEventRoutingConstraint1723549873495 } from './migration/common/1723549873495-ChangeEventRoutingConstraint'
+import { RemoveUniqueConstraintOnStepFile1725570317713 } from './migration/common/1725570317713-RemoveUniqueConstraintOnStepFile'
 import { AddAuthToPiecesMetadata1688922241747 } from './migration/postgres//1688922241747-AddAuthToPiecesMetadata'
 import { FlowAndFileProjectId1674788714498 } from './migration/postgres/1674788714498-FlowAndFileProjectId'
 import { initializeSchema1676238396411 } from './migration/postgres/1676238396411-initialize-schema'
@@ -139,6 +141,13 @@ import { AddPremiumPiecesColumnPostgres1717370717678 } from './migration/postgre
 import { AddUserInvitation1717960689650 } from './migration/postgres/1717960689650-AddUserInvitation'
 import { ModifyProjectMembers1717961669938 } from './migration/postgres/1717961669938-ModifyProjectMembers'
 import { AddWorkerMachine1720101280025 } from './migration/postgres/1720101280025-AddWorkerMachine'
+import { MigrateAuditEventSchema1723489038729 } from './migration/postgres/1723489038729-MigrateAuditEventSchema'
+import { AddAnalyticsToPlatform1725113652923 } from './migration/postgres/1725113652923-AddAnalyticsToPlatform'
+import { LogFileRelationWithFlowRun1725639666232 } from './migration/postgres/1725639666232-LogFileRelationWithFlowRun'
+import { AddLogsFileIdIndex1725699690971 } from './migration/postgres/1725699690971-AddLogsFileIdIndex'
+import { SupportS3Files1726364421096 } from './migration/postgres/1726364421096-SupportS3Files'
+import { AddAiProviderTable1726445983043 } from './migration/postgres/1726445983043-AddAiProviderTable'
+import { AddAiTokensForProjectPlan1726446092010 } from './migration/postgres/1726446092010-AddAiTokensForProjectPlan'
 
 const getSslConfig = (): boolean | TlsOptions => {
     const useSsl = system.get(AppSystemProp.POSTGRES_USE_SSL)
@@ -229,6 +238,13 @@ const getMigrations = (): (new () => MigrationInterface)[] => {
         AddUserInvitation1717960689650,
         AddPremiumPiecesColumnPostgres1717370717678,
         AddWorkerMachine1720101280025,
+        ChangeEventRoutingConstraint1723549873495,
+        AddAnalyticsToPlatform1725113652923,
+        RemoveUniqueConstraintOnStepFile1725570317713,
+        LogFileRelationWithFlowRun1725639666232,
+        AddLogsFileIdIndex1725699690971,
+        AddAiProviderTable1726445983043,
+        SupportS3Files1726364421096,
     ]
 
     const edition = system.getEdition()
@@ -298,9 +314,11 @@ const getMigrations = (): (new () => MigrationInterface)[] => {
                 AddReferral1690459469381,
                 AddUserEmailToReferral1709500213947,
                 AddProjectBilling1708811745694,
-                
+
                 // New Migration After Unifying
                 ModifyProjectMembers1717961669938,
+                MigrateAuditEventSchema1723489038729,
+                AddAiTokensForProjectPlan1726446092010,
             )
             break
         case ApEdition.COMMUNITY:

@@ -1,73 +1,44 @@
 import fs from 'fs/promises'
-import { ApFile } from '@activepieces/pieces-framework'
-import { isString } from '@activepieces/shared'
+import { ApFile, FilesService } from '@activepieces/pieces-framework'
+import { isNil, StepFileUpsert } from '@activepieces/shared'
 
-const DB_PREFIX_URL = 'db://'
 const FILE_PREFIX_URL = 'file://'
+const MAX_FILE_SIZE_MB = Number(process.env.AP_MAX_FILE_SIZE_MB)
+
+export type DefaultFileSystem = 'db' | 'local'
 const MEMORY_PREFIX_URL = 'memory://'
-const MAXIMUM = 4 * 1024 * 1024
-const MAXIMUM_MB = MAXIMUM / 1024 / 1024
 
-export type DefaultFileSystem = 'db' | 'local' | 'memory'
+type CreateFilesServiceParams = { apiUrl: string, stepName: string, type: DefaultFileSystem, flowId: string, engineToken: string }
 
-export function createFilesService({ stepName, type, flowId, engineToken, apiUrl }: { apiUrl: string, stepName: string, type: DefaultFileSystem, flowId: string, engineToken: string }) {
+export function createFilesService({ stepName, type, flowId, engineToken, apiUrl }: CreateFilesServiceParams): FilesService {
     return {
         async write({ fileName, data }: { fileName: string, data: Buffer }): Promise<string> {
             switch (type) {
-                // TODO remove db as it now generates a signed url
                 case 'db':
                     return writeDbFile({ stepName, flowId, fileName, data, engineToken, apiUrl })
                 case 'local':
                     return writeLocalFile({ stepName, fileName, data })
-                case 'memory':
-                    return writeMemoryFile({ fileName, data })
             }
         },
     }
 }
 
-export function isMemoryFilePath(dbPath: unknown): boolean {
-    if (!isString(dbPath)) {
-        return false
-    }
-
-    return dbPath.startsWith(MEMORY_PREFIX_URL)
+export const apFileUtils = {
+    readApFile,
 }
 
-export function isApFilePath(dbPath: unknown): dbPath is string {
-    if (!isString(dbPath)) {
-        return false
-    }
-    return dbPath.startsWith(FILE_PREFIX_URL) || dbPath.startsWith(DB_PREFIX_URL) || dbPath.startsWith(MEMORY_PREFIX_URL)
-}
 
-export async function handleAPFile({ engineToken, path, apiUrl }: { engineToken: string, path: string, apiUrl: string }) {
+async function readApFile(path: string): Promise<ApFile | null> {
+    if (path.startsWith(FILE_PREFIX_URL)) {
+        return readLocalFile(path)
+    }
     if (path.startsWith(MEMORY_PREFIX_URL)) {
         return readMemoryFile(path)
     }
-    // TODO REMOVE DB AS IT NOW GENERATES A SIGNED URL
-    else if (path.startsWith(DB_PREFIX_URL)) {
-        return readDbFile({ engineToken, absolutePath: path, apiUrl })
-    }
-    else if (path.startsWith(FILE_PREFIX_URL)) {
-        return readLocalFile(path)
-    }
-    else {
-        throw new Error(`error=local_file_not_found absolute_path=${path}`)
-    }
+    return null
 }
 
-async function writeMemoryFile({ fileName, data }: { fileName: string, data: Buffer }): Promise<string> {
-    try {
-        const base64Data = data.toString('base64')
-        const base64String = JSON.stringify({ fileName, data: base64Data })
-        return `memory://${base64String}`
-    }
-    catch (error) {
-        throw new Error(`Error reading file: ${error}`)
-    }
-}
-
+// TODO remove this as memory write is removed
 async function readMemoryFile(absolutePath: string): Promise<ApFile> {
     try {
         const base64String = absolutePath.replace(MEMORY_PREFIX_URL, '')
@@ -80,19 +51,19 @@ async function readMemoryFile(absolutePath: string): Promise<ApFile> {
     }
 }
 
-
-async function writeDbFile({ stepName, flowId, fileName, data, engineToken, apiUrl }: { apiUrl: string, stepName: string, flowId: string, fileName: string, data: Buffer, engineToken: string }): Promise<string> {
+async function writeDbFile({ stepName, flowId, fileName, data, engineToken, apiUrl }: StepFileUpsert & { engineToken: string, apiUrl: string }): Promise<string> {
     const formData = new FormData()
     formData.append('stepName', stepName)
-    formData.append('name', fileName)
+    formData.append('fileName', fileName)
     formData.append('flowId', flowId)
-    formData.append('file', new Blob([data], { type: 'application/octet-stream' }))
+    formData.append('data', new Blob([data], { type: 'application/octet-stream' }))
 
-    if (data.length > MAXIMUM) {
+    const maximumFileSizeInBytes = MAX_FILE_SIZE_MB * 1024 * 1024
+    if (data.length > maximumFileSizeInBytes) {
         throw new Error(JSON.stringify({
             message: 'File size is larger than maximum supported size in test step mode, please use test flow instead of step as a workaround',
             currentFileSize: `${(data.length / 1024 / 1024).toFixed(2)} MB`,
-            maximumSupportSize: `${MAXIMUM_MB.toFixed(2)} MB`,
+            maximumSupportSize: `${MAX_FILE_SIZE_MB.toFixed(2)} MB`,
         }))
     }
 
@@ -112,28 +83,6 @@ async function writeDbFile({ stepName, flowId, fileName, data, engineToken, apiU
     return result.url
 }
 
-async function readDbFile({ engineToken, absolutePath, apiUrl }: { engineToken: string, absolutePath: string, apiUrl: string }): Promise<ApFile> {
-    const fileId = absolutePath.replace(DB_PREFIX_URL, '')
-    const response = await fetch(`${apiUrl}v1/step-files/${encodeURIComponent(fileId)}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + engineToken,
-        },
-    })
-    if (!response.ok) {
-        throw new Error(`error=db_file_not_found id=${absolutePath}`)
-    }
-    const arrayBuffer = await response.arrayBuffer()
-    const contentDisposition = response.headers.get('Content-Disposition')
-    const filenameMatch = contentDisposition?.match(/filename="(.+)"/)
-    const filename = filenameMatch ? filenameMatch[1] : 'unknown'
-    const extension = filename.split('.').pop()!
-    return new ApFile(filename, Buffer.from(arrayBuffer), extension)
-}
-
-
-
 async function writeLocalFile({ stepName, fileName, data }: { stepName: string, fileName: string, data: Buffer }): Promise<string> {
     const path = 'tmp/' + stepName + '/' + fileName
     await fs.mkdir('tmp/' + stepName, { recursive: true })
@@ -145,7 +94,10 @@ async function writeLocalFile({ stepName, fileName, data }: { stepName: string, 
 async function readLocalFile(absolutePath: string): Promise<ApFile> {
     const path = 'tmp/' + absolutePath.replace(FILE_PREFIX_URL, '')
     const buffer = await fs.readFile(path)
-    const filename = absolutePath.split('/').pop()!
-    const extension = filename.split('.').pop()!
+    const filename = absolutePath.split('/').pop()
+    if (isNil(filename)) {
+        throw new Error('Invalid file path')
+    }
+    const extension = filename.split('.').pop()
     return new ApFile(filename, buffer, extension)
 }

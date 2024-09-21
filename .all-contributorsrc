@@ -1199,6 +1199,60 @@
       "contributions": [
         "plugin"
       ]
+    },
+    {
+      "login": "emmanuel-ferdman",
+      "name": "Emmanuel Ferdman",
+      "avatar_url": "https://avatars.githubusercontent.com/u/35470921?v=4",
+      "profile": "https://github.com/emmanuel-ferdman",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "sany2407",
+      "name": "Sany A",
+      "avatar_url": "https://avatars.githubusercontent.com/u/179091674?v=4",
+      "profile": "https://github.com/sany2407",
+      "contributions": [
+        "plugin"
+      ]
+    },
+    {
+      "login": "Swimburger",
+      "name": "Niels Swimberghe",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3382717?v=4",
+      "profile": "https://swimburger.net",
+      "contributions": [
+        "bug"
+      ]
+    },
+    {
+      "login": "lostinbug",
+      "name": "lostinbug",
+      "avatar_url": "https://avatars.githubusercontent.com/u/157452389?v=4",
+      "profile": "https://github.com/lostinbug",
+      "contributions": [
+        "plugin"
+      ]
+    },
+    {
+      "login": "gushkool",
+      "name": "gushkool",
+      "avatar_url": "https://avatars.githubusercontent.com/u/64713308?v=4",
+      "profile": "https://github.com/gushkool",
+      "contributions": [
+        "plugin"
+      ]
+    },
+    {
+      "login": "OmarSayed",
+      "name": "Omar Sayed",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3813045?v=4",
+      "profile": "http://www.linkedin.com/in/omarsayed",
+      "contributions": [
+        "plugin"
+      ]
     }
   ],
   "commitType": "docs"

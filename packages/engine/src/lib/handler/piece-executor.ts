@@ -5,10 +5,10 @@ import { continueIfFailureHandler, handleExecutionError, runWithExponentialBacko
 import { pieceLoader } from '../helper/piece-loader'
 import { createConnectionService } from '../services/connections.service'
 import { createFilesService } from '../services/files.service'
+import { createFlowsContext } from '../services/flows.service'
 import { createContextStore } from '../services/storage.service'
 import { ActionHandler, BaseExecutor } from './base-executor'
-import { EngineConstants } from './context/engine-constants'
-import { ExecutionVerdict, FlowExecutorContext } from './context/flow-execution-context'
+import { ExecutionVerdict } from './context/flow-execution-context'
 
 type HookResponse = { stopResponse: StopHookParams | undefined, pauseResponse: PauseHookParams | undefined, tags: string[], stopped: boolean, paused: boolean }
 
@@ -17,10 +17,6 @@ export const pieceExecutor: BaseExecutor<PieceAction> = {
         action,
         executionState,
         constants,
-    }: {
-        action: PieceAction
-        executionState: FlowExecutorContext
-        constants: EngineConstants
     }) {
         if (executionState.isCompleted({ stepName: action.name })) {
             return executionState
@@ -74,6 +70,12 @@ const executeAction: ActionHandler<PieceAction> = async ({ action, executionStat
                 prefix: '',
                 flowId: constants.flowId,
                 engineToken: constants.engineToken,
+            }),
+            flows: createFlowsContext({
+                engineToken: constants.engineToken,
+                internalApiUrl: constants.internalApiUrl,
+                flowId: constants.flowId,
+                flowVersionId: constants.flowVersionId,
             }),
             auth: processedInput[AUTHENTICATION_PROPERTY_NAME],
             files: createFilesService({

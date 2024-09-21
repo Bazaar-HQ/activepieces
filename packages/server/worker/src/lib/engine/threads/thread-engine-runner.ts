@@ -4,14 +4,14 @@ import { Action, ActionType, assertNotNullOrUndefined, EngineOperation, EngineOp
 import { webhookUtils } from '../../utils/webhook-utils'
 import { EngineHelperResponse, EngineHelperResult, EngineRunner, engineRunnerUtils } from '../engine-runner'
 import { executionFiles } from '../execution-files'
-import { pieceEngineUtil } from '../flow-enginer-util'
+import { pieceEngineUtil } from '../flow-engine-util'
 import { EngineWorker } from './worker'
 
 const memoryLimit = Math.floor((Number(system.getOrThrow(SharedSystemProp.SANDBOX_MEMORY_LIMIT)) / 1024))
 const sandboxPath = path.resolve('cache')
 const codesPath = path.resolve('cache', 'codes')
 const enginePath = path.join(sandboxPath, 'main.js')
-// TODO seperate this to a config file from flow worker concurrency as execute step is different operation
+// TODO separate this to a config file from flow worker concurrency as execute step is different operation
 const workerConcurrency = Math.max(5, system.getNumber(WorkerSystemProps.FLOW_WORKER_CONCURRENCY) ?? 10)
 let engineWorkers: EngineWorker
 
@@ -49,6 +49,7 @@ export const threadEngineRunner: EngineRunner = {
             hookType: operation.hookType,
             webhookUrl: operation.webhookUrl,
             triggerPayload: operation.triggerPayload,
+            test: operation.test,
             flowVersion: lockedVersion,
             appWebhookUrl: await webhookUtils.getAppWebhookUrl({
                 appName: triggerPiece.pieceName,
@@ -230,8 +231,9 @@ function getEnvironmentVariables(): Record<string, string | undefined> {
     return {
         ...propagatedEnvVars,
         NODE_OPTIONS: '--enable-source-maps',
-        AP_CODE_SANDBOX_TYPE: system.get(SharedSystemProp.CODE_SANDBOX_TYPE),
+        AP_EXECUTION_MODE: system.getOrThrow(SharedSystemProp.EXECUTION_MODE),
         AP_PIECES_SOURCE: system.getOrThrow(SharedSystemProp.PIECES_SOURCE),
         AP_BASE_CODE_DIRECTORY: `${sandboxPath}/codes`,
+        AP_MAX_FILE_SIZE_MB: system.getOrThrow(SharedSystemProp.MAX_FILE_SIZE_MB),
     }
 }

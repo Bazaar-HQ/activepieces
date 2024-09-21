@@ -1,11 +1,12 @@
 import { PiecePropertyMap, StaticPropsValue, TriggerStrategy } from '@activepieces/pieces-framework'
-import { assertEqual, AUTHENTICATION_PROPERTY_NAME, EventPayload, ExecuteTriggerOperation, ExecuteTriggerResponse, PieceTrigger, ScheduleOptions, TriggerHookType } from '@activepieces/shared'
+import { assertEqual, assertNotNullOrUndefined, AUTHENTICATION_PROPERTY_NAME, EventPayload, ExecuteTriggerOperation, ExecuteTriggerResponse, PieceTrigger, ScheduleOptions, TriggerHookType } from '@activepieces/shared'
 import { isValidCron } from 'cron-validator'
 import { EngineConstants } from '../handler/context/engine-constants'
 import { FlowExecutorContext } from '../handler/context/flow-execution-context'
 import { createFilesService } from '../services/files.service'
+import { createFlowsContext } from '../services/flows.service'
 import { createContextStore } from '../services/storage.service'
-import { variableService } from '../services/variable-service'
+import { variableService } from '../variables/variable-service'
 import { pieceLoader } from './piece-loader'
 
 type Listener = {
@@ -18,6 +19,7 @@ export const triggerHelper = {
     async executeTrigger({ params, constants }: ExecuteTriggerParams): Promise<ExecuteTriggerResponse<TriggerHookType>> {
         const { pieceName, pieceVersion, triggerName, input } = (params.flowVersion.trigger as PieceTrigger).settings
 
+        assertNotNullOrUndefined(triggerName, 'triggerName is required')
         const piece = await pieceLoader.loadPieceOrThrow({ pieceName, pieceVersion, piecesSource: constants.piecesSource })
         const trigger = piece.getTrigger(triggerName)
 
@@ -45,7 +47,7 @@ export const triggerHelper = {
         }
 
         const appListeners: Listener[] = []
-        const prefix = (params.hookType === TriggerHookType.TEST) ? 'test' : ''
+        const prefix = params.test ? 'test' : ''
         let scheduleOptions: ScheduleOptions | undefined = undefined
         const context = {
             store: createContextStore({
@@ -69,6 +71,12 @@ export const triggerHelper = {
                     failureCount: request.failureCount ?? 0,
                 }
             },
+            flows: createFlowsContext({
+                engineToken: params.engineToken,
+                internalApiUrl: constants.internalApiUrl,
+                flowId: params.flowVersion.flowId,
+                flowVersionId: params.flowVersion.id,
+            }),
             webhookUrl: params.webhookUrl,
             auth: processedInput[AUTHENTICATION_PROPERTY_NAME],
             propsValue: processedInput,
@@ -177,7 +185,7 @@ export const triggerHelper = {
                         engineToken: params.engineToken!,
                         flowId: params.flowVersion.flowId,
                         stepName: triggerName,
-                        type: 'memory',
+                        type: 'db',
                     }),
                 })
                 if (!Array.isArray(items)) {

@@ -12,6 +12,8 @@ import { AddTriggerTestStrategy1707087022764 } from './migration/common/17070870
 import { MigrateWebhook1709581196563 } from './migration/common/1709581196563-migrate-webhook'
 import { RemoveShowActivityLog1716105958530 } from './migration/common/1716105958530-RemoveShowActivityLog'
 import { AddDurationForRuns1716725027424 } from './migration/common/1716725027424-AddDurationForRuns'
+import { ChangeEventRoutingConstraint1723549873495 } from './migration/common/1723549873495-ChangeEventRoutingConstraint'
+import { RemoveUniqueConstraintOnStepFile1725570317713 } from './migration/common/1725570317713-RemoveUniqueConstraintOnStepFile'
 import { InitialSql3Migration1690195839899 } from './migration/sqlite/1690195839899-InitialSql3Migration'
 import { AddAppConnectionTypeToTopLevel1691706020626 } from './migration/sqlite/1691706020626-add-app-connection-type-to-top-level'
 import { AddTagsToRunSqlite1692056190942 } from './migration/sqlite/1692056190942-AddTagsToRunSqlite'
@@ -50,6 +52,11 @@ import { AddAlertsEntitySqlite1717239613259 } from './migration/sqlite/171723961
 import { AddPremiumPiecesColumnSqlite1717443603235 } from './migration/sqlite/1717443603235-AddPremiumPiecesColumnSqlite'
 import { AddUserInvitationSqlite1717943564437 } from './migration/sqlite/1717943564437-AddUserInvitationSqlite'
 import { AddWorkerMachineSqlite1720100928449 } from './migration/sqlite/1720100928449-AddWorkerMachineSqlite'
+import { AddAnalyticsToPlatformSqlite1725151368300 } from './migration/sqlite/1725151368300-AddAnalyticsToPlatformSqlite'
+import { LogFileRelationWithFlowRunSqlite1725637505836 } from './migration/sqlite/1725637505836-LogFileRelationWithFlowRunSqlite'
+import { AddLogsFileIdIndexSqlite1725699920020 } from './migration/sqlite/1725699920020-AddLogsFileIdIndexSqlite'
+import { SupportS3FilesSqlite1726363932745 } from './migration/sqlite/1726363932745-SupportS3FilesSqlite'
+import { AddAiProviderSqlite1726446345221 } from './migration/sqlite/1726446345221-AddAiProviderSqlite'
 
 const getSqliteDatabaseFilePath = (): string => {
     const apConfigDirectoryPath = system.getOrThrow(AppSystemProp.CONFIG_PATH)
@@ -118,6 +125,13 @@ const getMigrations = (): (new () => MigrationInterface)[] => {
         AddUserInvitationSqlite1717943564437,
         AddPremiumPiecesColumnSqlite1717443603235,
         AddWorkerMachineSqlite1720100928449,
+        ChangeEventRoutingConstraint1723549873495,
+        AddAnalyticsToPlatformSqlite1725151368300,
+        RemoveUniqueConstraintOnStepFile1725570317713,
+        LogFileRelationWithFlowRunSqlite1725637505836,
+        AddLogsFileIdIndexSqlite1725699920020,
+        AddAiProviderSqlite1726446345221,
+        SupportS3FilesSqlite1726363932745,
     ]
     const edition = system.getEdition()
     if (edition !== ApEdition.COMMUNITY) {

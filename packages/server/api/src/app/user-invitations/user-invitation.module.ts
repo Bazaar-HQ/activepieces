@@ -1,9 +1,10 @@
 import {
-    AcceptUserInvitationRequest,
     ActivepiecesError,
     ALL_PRINCIPAL_TYPES,
+    assertNotNullOrUndefined,
     EndpointScope,
     ErrorCode,
+    InvitationStatus,
     InvitationType,
     isNil,
     ListUserInvitationsRequest,
@@ -16,6 +17,7 @@ import {
     UserInvitationWithLink,
 } from '@activepieces/shared'
 import { FastifyPluginAsyncTypebox, Type } from '@fastify/type-provider-typebox'
+import dayjs from 'dayjs'
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
 import { StatusCodes } from 'http-status-codes'
 import { platformMustBeOwnedByCurrentUser, platformMustHaveFeatureEnabled } from '../ee/authentication/ee-authorization'
@@ -23,7 +25,6 @@ import { assertRoleHasPermission } from '../ee/authentication/rbac/rbac-middlewa
 import { projectMembersLimit } from '../ee/project-plan/members-limit'
 import { projectService } from '../project/project-service'
 import { userInvitationsService } from './user-invitation.service'
-
 
 export const invitationModule: FastifyPluginAsyncTypebox = async (app) => {
     await app.register(invitationController, { prefix: '/v1/user-invitations' })
@@ -33,14 +34,22 @@ const invitationController: FastifyPluginAsyncTypebox = async (
     app,
 ) => {
 
-    app.post('/', CreateUserInvitationRequestParams, async (request, reply) => {
-        await assertPermission(app, request, reply, request.body.projectId ?? undefined, request.body.type)
-        const { email, platformRole, projectRole, type } = request.body
+    app.post('/', UpsertUserInvitationRequestParams, async (request, reply) => {
+        switch (request.body.type) {
+            case InvitationType.PROJECT:
+                await assertPrincipalHasPermissionToProject(app, request, reply, request.body.projectId, Permission.WRITE_INVITATION)
+                break
+            case InvitationType.PLATFORM:
+                await platformMustBeOwnedByCurrentUser.call(app, request, reply)
+                break
+        }
+        const status = request.principal.type === PrincipalType.SERVICE ? InvitationStatus.ACCEPTED : InvitationStatus.PENDING
+        const { email, type } = request.body
         if (type === InvitationType.PROJECT) {
             await projectMembersLimit.limit({
-                projectId: request.principal.projectId,
+                projectId: request.body.projectId,
                 platformId: request.principal.platform.id,
-                role: projectRole!,
+                role: request.body.projectRole,
             })
         }
         const platformId = request.principal.platform.id
@@ -48,17 +57,20 @@ const invitationController: FastifyPluginAsyncTypebox = async (
             email,
             type,
             platformId,
-            platformRole: type === InvitationType.PROJECT ? null : platformRole ?? null,
-            projectId: type === InvitationType.PLATFORM ? null : request.body.projectId ?? null,
-            projectRole: type === InvitationType.PLATFORM ? null : projectRole ?? null,
+            platformRole: type === InvitationType.PROJECT ? null : request.body.platformRole,
+            projectId: type === InvitationType.PLATFORM ? null : request.body.projectId,
+            projectRole: type === InvitationType.PLATFORM ? null : request.body.projectRole,
+            invitationExpirySeconds: dayjs.duration(1, 'day').asSeconds(),
+            status,
         })
         await reply.status(StatusCodes.CREATED).send(invitation)
     })
 
     app.get('/', ListUserInvitationsRequestParams, async (request, reply) => {
+        const projectId = await getProjectIdAndAssertPermission(app, request, reply, request.query)
         const invitations = await userInvitationsService.list({
             platformId: request.principal.platform.id,
-            projectId: request.query.type === InvitationType.PROJECT ? request.principal.projectId : null,
+            projectId: request.query.type === InvitationType.PROJECT ? projectId : null,
             type: request.query.type,
             status: request.query.status,
             cursor: request.query.cursor ?? null,
@@ -68,8 +80,12 @@ const invitationController: FastifyPluginAsyncTypebox = async (
     })
 
     app.post('/accept', AcceptUserInvitationRequestParams, async (request, reply) => {
-        const result = await userInvitationsService.accept(request.body)
-        await reply.status(StatusCodes.OK).send(result)
+        const invitation = await userInvitationsService.getOneByInvitationTokenOrThrow(request.body.invitationToken)
+        await userInvitationsService.accept({
+            invitationId: invitation.id,
+            platformId: invitation.platformId,
+        })
+        await reply.status(StatusCodes.OK).send(invitation)
     })
 
     app.delete('/:id', DeleteInvitationRequestParams, async (request, reply) => {
@@ -77,7 +93,16 @@ const invitationController: FastifyPluginAsyncTypebox = async (
             id: request.params.id,
             platformId: request.principal.platform.id,
         })
-        await assertPermission(app, request, reply, invitation.projectId ?? undefined, invitation.type)
+        switch (invitation.type) {
+            case InvitationType.PROJECT: {
+                assertNotNullOrUndefined(invitation.projectId, 'projectId')
+                await assertPrincipalHasPermissionToProject(app, request, reply, invitation.projectId, Permission.WRITE_INVITATION)
+                break
+            }
+            case InvitationType.PLATFORM:
+                await platformMustBeOwnedByCurrentUser.call(app, request, reply)
+                break
+        }
         await userInvitationsService.delete({
             id: request.params.id,
             platformId: request.principal.platform.id,
@@ -87,34 +112,30 @@ const invitationController: FastifyPluginAsyncTypebox = async (
 }
 
 
-async function assertPermission(fastify: FastifyInstance, request: FastifyRequest, reply: FastifyReply, projectId: string | undefined, invitationType: InvitationType): Promise<void> {
-    switch (invitationType) {
-        case InvitationType.PLATFORM:
-            await platformMustBeOwnedByCurrentUser.call(fastify, request, reply)
-            break
-        case InvitationType.PROJECT: {
-            if (isNil(projectId)) {
-                throw new ActivepiecesError({
-                    code: ErrorCode.AUTHORIZATION,
-                    params: {
-                        message: 'projectId is required',
-                    },
-                })
-            }
-            const project = await projectService.getOneOrThrow(projectId)
-            if (isNil(project) || project.platformId !== request.principal.platform.id) {
-                throw new ActivepiecesError({
-                    code: ErrorCode.AUTHORIZATION,
-                    params: {
-                        message: 'user does not have access to the project',
-                    },
-                })
-            }
-            await platformMustHaveFeatureEnabled((platform) => platform.projectRolesEnabled).call(fastify, request, reply)
-            await assertRoleHasPermission(request.principal, Permission.WRITE_INVITATION)
-            break
+const getProjectIdAndAssertPermission = async (app: FastifyInstance, request: FastifyRequest, reply: FastifyReply, requestQuery: ListUserInvitationsRequest): Promise<string | null> => {
+    if (request.principal.type === PrincipalType.SERVICE) {
+        if (isNil(requestQuery.projectId)) {
+            return null
         }
+        await assertPrincipalHasPermissionToProject(app, request, reply, requestQuery.projectId, Permission.READ_INVITATION)
+        return requestQuery.projectId
     }
+    return request.principal.projectId
+}
+
+
+async function assertPrincipalHasPermissionToProject(fastify: FastifyInstance, request: FastifyRequest, reply: FastifyReply, projectId: string, permission: Permission): Promise<void> {
+    const project = await projectService.getOneOrThrow(projectId)
+    if (isNil(project) || project.platformId !== request.principal.platform.id) {
+        throw new ActivepiecesError({
+            code: ErrorCode.AUTHORIZATION,
+            params: {
+                message: 'user does not have access to the project',
+            },
+        })
+    }
+    await platformMustHaveFeatureEnabled((platform) => platform.projectRolesEnabled).call(fastify, request, reply)
+    await assertRoleHasPermission(request.principal, permission)
 }
 
 
@@ -122,6 +143,7 @@ const ListUserInvitationsRequestParams = {
     config: {
         allowedPrincipals: [PrincipalType.USER, PrincipalType.SERVICE],
         permission: Permission.READ_INVITATION,
+        scope: EndpointScope.PLATFORM,
     },
     schema: {
         tags: ['user-invitations'],
@@ -138,13 +160,16 @@ const AcceptUserInvitationRequestParams = {
         allowedPrincipals: ALL_PRINCIPAL_TYPES,
     },
     schema: {
-        body: AcceptUserInvitationRequest,
+        body: Type.Object({
+            invitationToken: Type.String(),
+        }),
     },
 }
 
 const DeleteInvitationRequestParams = {
     config: {
         allowedPrincipals: [PrincipalType.USER, PrincipalType.SERVICE],
+        scope: EndpointScope.PLATFORM,
     },
     schema: {
         tags: ['user-invitations'],
@@ -158,13 +183,14 @@ const DeleteInvitationRequestParams = {
     },
 }
 
-const CreateUserInvitationRequestParams = {
+const UpsertUserInvitationRequestParams = {
     config: {
         allowedPrincipals: [PrincipalType.USER, PrincipalType.SERVICE],
         scope: EndpointScope.PLATFORM,
     },
     schema: {
         body: SendUserInvitationRequest,
+        description: 'Send a user invitation to a user. If the user already has an invitation, the invitation will be updated.',
         tags: ['user-invitations'],
         security: [SERVICE_KEY_SECURITY_OPENAPI],
         response: {

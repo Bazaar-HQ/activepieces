@@ -4,12 +4,11 @@ import {
 import { logger, networkUtls, rejectedPromiseHandler } from '@activepieces/server-shared'
 import {
     apId,
-    assertEqual,
     Cursor,
     PrincipalType,
     SeekPage,
 } from '@activepieces/shared'
-import Ajv from 'ajv'
+import { Value } from '@sinclair/typebox/value'
 import { FastifyRequest } from 'fastify'
 import { repoFactory } from '../../core/db/repo-factory'
 import { AuditEventParam } from '../../helper/application-events'
@@ -20,13 +19,13 @@ import { projectService } from '../../project/project-service'
 import { userService } from '../../user/user-service'
 import { AuditEventEntity } from './audit-event-entity'
 
-const auditLogRepo = repoFactory(AuditEventEntity)
-
-const ajv = new Ajv({ removeAdditional: 'all' })
-const eventSchema = ajv.compile<ApplicationEvent>(ApplicationEvent)
+export const auditLogRepo = repoFactory(AuditEventEntity)
 
 export const auditLogService = {
-    sendUserEvent(request: FastifyRequest, params: AuditEventParam): void {
+    sendUserEvent(requestInformation: MetaInformation, params: AuditEventParam): void {
+        rejectedPromiseHandler(saveEvent(requestInformation, params))
+    },
+    sendUserEventFromRequest(request: FastifyRequest, params: AuditEventParam): void {
         if ([PrincipalType.UNKNOWN, PrincipalType.WORKER].includes(request.principal.type)) {
             return
         }
@@ -84,7 +83,9 @@ async function saveEvent(info: MetaInformation, rawEvent: AuditEventParam): Prom
         created: new Date().toISOString(),
         updated: new Date().toISOString(),
         userId: info.userId,
+        userEmail: user?.email,
         projectId: info.projectId,
+        projectDisplayName: project?.displayName,
         platformId: info.platformId,
         ip: info.ip,
         data: {
@@ -94,12 +95,15 @@ async function saveEvent(info: MetaInformation, rawEvent: AuditEventParam): Prom
         },
         action: rawEvent.action,
     }
-    const valid = eventSchema(eventToSave)
-    assertEqual(valid, true, 'Event validation', 'true')
-    const appEvent = await auditLogRepo().save(eventToSave as ApplicationEvent)
+
+    // The event may contain Date objects, so we serialize it to convert dates back to strings as per the schema.
+    const clonedAndSerializedDates = JSON.parse(JSON.stringify(eventToSave))
+    const cleanedEvent = Value.Clean(ApplicationEvent, clonedAndSerializedDates) as ApplicationEvent
+
+    const savedEvent = await auditLogRepo().save(cleanedEvent)
     logger.info({
         message: '[AuditEventService#saveEvent] Audit event saved',
-        appEvent,
+        appEvent: savedEvent,
     })
 }
 

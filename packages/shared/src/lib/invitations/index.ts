@@ -1,5 +1,5 @@
 import { Static, Type } from '@sinclair/typebox'
-import { BaseModelSchema, Nullable } from '../common'
+import { BaseModelSchema, Nullable, NullableEnum } from '../common'
 import { ProjectMemberRole } from '../project'
 import { PlatformRole } from '../user/index'
 
@@ -19,9 +19,9 @@ export const UserInvitation = Type.Object({
     status: Type.Enum(InvitationStatus),
     type: Type.Enum(InvitationType),
     platformId: Type.String(),
-    platformRole: Type.Optional(Type.Union([Type.Enum(PlatformRole), Type.Null()])),
+    platformRole: NullableEnum(Type.Enum(PlatformRole)),
     projectId: Nullable(Type.String()),
-    projectRole: Type.Optional(Type.Union([Type.Enum(ProjectMemberRole), Type.Null()])),
+    projectRole: NullableEnum(Type.Enum(ProjectMemberRole)),
 })
 
 export type UserInvitation = Static<typeof UserInvitation>
@@ -32,13 +32,20 @@ export const UserInvitationWithLink = Type.Composite([UserInvitation, Type.Objec
 
 export type UserInvitationWithLink = Static<typeof UserInvitationWithLink>
 
-export const SendUserInvitationRequest = Type.Object({
-    email: Type.String(),
-    type: Type.Enum(InvitationType),
-    platformRole: Type.Optional(Type.Enum(PlatformRole)),
-    projectId: Nullable(Type.String()),
-    projectRole: Type.Optional(Type.Enum(ProjectMemberRole)),
-})
+export const SendUserInvitationRequest = Type.Union([
+    Type.Object({
+        type: Type.Literal(InvitationType.PROJECT),
+        email: Type.String(),
+        projectId: Type.String(),
+        projectRole: Type.Enum(ProjectMemberRole),
+    }),
+    Type.Object({
+        type: Type.Literal(InvitationType.PLATFORM),
+        email: Type.String(),
+        platformRole: Type.Enum(PlatformRole),
+    }),
+])
+
 
 export type SendUserInvitationRequest = Static<typeof SendUserInvitationRequest>
 
@@ -52,6 +59,7 @@ export const ListUserInvitationsRequest = Type.Object({
     limit: Type.Optional(Type.Number()),
     cursor: Type.Optional(Type.String()),
     type: Type.Enum(InvitationType),
+    projectId: Nullable(Type.String()),
     status: Type.Optional(Type.Enum(InvitationStatus)),
 })
 

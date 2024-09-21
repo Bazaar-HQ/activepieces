@@ -8,6 +8,7 @@ import {
     FlowOperationRequest,
     FlowTemplateWithoutProjectInformation,
     GetFlowQueryParamsRequest,
+    GetFlowTemplateRequestQuery,
     isNil,
     ListFlowsRequest,
     Permission,
@@ -25,6 +26,7 @@ import dayjs from 'dayjs'
 import { StatusCodes } from 'http-status-codes'
 import { entitiesMustBeOwnedByCurrentProject } from '../../authentication/authorization'
 import { assertUserHasPermissionToFlow } from '../../ee/authentication/rbac/rbac-middleware'
+import { gitRepoService } from '../../ee/git-repos/git-repo.service'
 import { eventsHooks } from '../../helper/application-events'
 import { projectService } from '../../project/project-service'
 import { flowService } from './flow.service'
@@ -40,7 +42,7 @@ export const flowController: FastifyPluginAsyncTypebox = async (app) => {
             request: request.body,
         })
 
-        eventsHooks.get().sendUserEvent(request, {
+        eventsHooks.get().sendUserEventFromRequest(request, {
             action: ApplicationEventName.FLOW_CREATED,
             data: {
                 flow: newFlow,
@@ -59,7 +61,7 @@ export const flowController: FastifyPluginAsyncTypebox = async (app) => {
             projectId: request.principal.projectId,
         })
         await assertThatFlowIsNotBeingUsed(flow, userId)
-        eventsHooks.get().sendUserEvent(request, {
+        eventsHooks.get().sendUserEventFromRequest(request, {
             action: ApplicationEventName.FLOW_UPDATED,
             data: {
                 request: request.body,
@@ -115,12 +117,17 @@ export const flowController: FastifyPluginAsyncTypebox = async (app) => {
             id: request.params.id,
             projectId: request.principal.projectId,
         })
-        eventsHooks.get().sendUserEvent(request, {
+        eventsHooks.get().sendUserEventFromRequest(request, {
             action: ApplicationEventName.FLOW_DELETED,
             data: {
                 flow,
                 flowVersion: flow.version,
             },
+        })
+        await gitRepoService.onFlowDeleted({
+            flowId: request.params.id,
+            userId: request.principal.id,
+            projectId: request.principal.projectId,
         })
         await flowService.delete({
             id: request.params.id,
@@ -219,6 +226,7 @@ const GetFlowTemplateRequestOptions = {
         params: Type.Object({
             id: ApId,
         }),
+        querystring: GetFlowTemplateRequestQuery,
         response: {
             [StatusCodes.OK]: FlowTemplateWithoutProjectInformation,
         },
