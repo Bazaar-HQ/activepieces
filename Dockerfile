@@ -69,10 +69,6 @@ RUN apt-get update && apt-get install -y nginx gettext
 # Copy Nginx configuration template
 COPY packages/ui/core/nginx.standard.conf /etc/nginx/nginx.conf
 
-
-RUN curl https://get.acme.sh | sh -s email=sebto@brightdata.com.au
-RUN ~/.acme.sh/acme.sh --issue nginx -d flows.bazaar.tech -w /usr/share/nginx/html
-
 COPY --from=build /usr/src/app/LICENSE .
 
 RUN mkdir -p /usr/src/app/dist/packages/server/
@@ -100,4 +96,3 @@ COPY docker-entrypoint.sh .
 RUN chmod +x docker-entrypoint.sh
 ENTRYPOINT ["./docker-entrypoint.sh"]
 
-EXPOSE 80
