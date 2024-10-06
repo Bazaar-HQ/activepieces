@@ -122,9 +122,11 @@ export const createBuilderStore = (initialState: BuilderInitialState) =>
       canExitRun: initialState.canExitRun,
       activeDraggingStep: null,
       allowCanvasPanning: true,
-      rightSidebar: initialState.run
-        ? RightSideBarType.PIECE_SETTINGS
-        : RightSideBarType.NONE,
+      rightSidebar:
+        initialState.run ||
+        initialState.flowVersion.trigger.type !== TriggerType.EMPTY
+          ? RightSideBarType.PIECE_SETTINGS
+          : RightSideBarType.NONE,
       refreshPieceFormSettings: false,
 
       removeStepSelection: () =>
@@ -173,7 +175,7 @@ export const createBuilderStore = (initialState: BuilderInitialState) =>
           };
         });
       },
-      setFlow: (flow: Flow) => set({ flow }),
+      setFlow: (flow: PopulatedFlow) => set({ flow, selectedStep: null }),
       exitRun: (userHasPermissionToEditFlow: boolean) =>
         set({
           run: null,
@@ -262,6 +264,7 @@ export const createBuilderStore = (initialState: BuilderInitialState) =>
         set((state) => ({
           flowVersion,
           run: null,
+          selectedStep: null,
           readonly:
             state.flow.publishedVersionId !== flowVersion.id &&
             flowVersion.state === FlowVersionState.LOCKED,

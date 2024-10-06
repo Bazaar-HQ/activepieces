@@ -19,7 +19,6 @@ import {
 import { LoadingSpinner } from '@/components/ui/spinner';
 import { triggerEventsApi } from '@/features/flows/lib/trigger-events-api';
 import { piecesHooks } from '@/features/pieces/lib/pieces-hook';
-import { formatUtils } from '@/lib/utils';
 import {
   SeekPage,
   Trigger,
@@ -59,7 +58,7 @@ const TestTriggerSection = React.memo(
   ({ isSaving, flowVersionId, flowId }: TestTriggerSectionProps) => {
     const form = useFormContext<Trigger>();
     const formValues = form.getValues();
-    const [isValid, setIsValid] = useState(false);
+    const isValid = form.formState.isValid;
 
     const [lastTestDate, setLastTestDate] = useState(
       formValues.settings.inputUiInfo?.lastTestDate,
@@ -75,9 +74,6 @@ const TestTriggerSection = React.memo(
       TriggerTestStrategy.SIMULATION;
     const mockData =
       pieceModel?.triggers?.[formValues.settings.triggerName]?.sampleData;
-    useEffect(() => {
-      setIsValid(form.formState.isValid);
-    }, [form.formState.isValid]);
 
     const [errorMessage, setErrorMessage] = useState<string | undefined>(
       undefined,
@@ -177,10 +173,7 @@ const TestTriggerSection = React.memo(
         'settings.inputUiInfo',
         {
           ...formValues.settings.inputUiInfo,
-          currentSelectedData: formatUtils.formatStepInputOrOutput(
-            data.payload,
-            null,
-          ),
+          currentSelectedData: data.payload,
           lastTestDate: dayjs().toISOString(),
         },
         { shouldValidate: true },
@@ -238,7 +231,6 @@ const TestTriggerSection = React.memo(
             currentSelectedData={currentSelectedData}
             errorMessage={errorMessage}
             lastTestDate={lastTestDate}
-            type={formValues.type}
           >
             {pollResults?.data && (
               <div className="mb-3">
