@@ -7,11 +7,13 @@ import { GlobalApiKeyAuthnHandler } from './authn/global-api-key-authn-handler'
 import { PlatformApiKeyAuthnHandler } from './authn/platform-api-key-authn-handler'
 import { PrincipalTypeAuthzHandler } from './authz/principal-type-authz-handler'
 import { ProjectAuthzHandler } from './authz/project-authz-handler'
+import { BazaarSupabaseAuthnHandler } from './authn/bazaar-supabase-authn-handler'
 
 const AUTHN_HANDLERS = [
     new AppSumoAuthnHandler(),
     new GlobalApiKeyAuthnHandler(),
     new PlatformApiKeyAuthnHandler(),
+    new BazaarSupabaseAuthnHandler(),
     new AccessTokenAuthnHandler(),
     new AnonymousAuthnHandler(),
 ]
