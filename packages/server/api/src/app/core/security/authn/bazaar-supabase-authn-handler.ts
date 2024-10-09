@@ -38,7 +38,7 @@ export class BazaarSupabaseAuthnHandler extends BaseSecurityHandler {
 
         const projectRepo = repoFactory(ProjectEntity)
         const projects = await projectRepo().query(`
-            SELECT "project"."id" AS "projectId"
+            SELECT "project"."id" AS "projectId", project."platformId"
             FROM "project" "project"
                    INNER JOIN "user" "user" ON "user"."id" = project."ownerId"
             WHERE ("user"."externalId" = '${principal.sub}')
@@ -46,6 +46,7 @@ export class BazaarSupabaseAuthnHandler extends BaseSecurityHandler {
         `)
         if(Array.isArray(projects) && projects.length) {
             principal.projectId = projects[0].projectId
+            principal.platform = await platformService.getOne(projects[0].platformId)
         } else {
             // find platform id
             const [platform, password] = await Promise.all([
@@ -74,6 +75,7 @@ export class BazaarSupabaseAuthnHandler extends BaseSecurityHandler {
               platformId: platform?.id,
             })
             principal.projectId = project.id
+            principal.platform = platform
         }
     }
 
