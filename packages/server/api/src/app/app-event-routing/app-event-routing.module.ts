@@ -1,6 +1,7 @@
 import { facebookLeads } from '@activepieces/piece-facebook-leads'
 import { intercom } from '@activepieces/piece-intercom'
 import { slack } from '@activepieces/piece-slack'
+import { bazaar } from '@activepieces/piece-bazaar'
 import { square } from '@activepieces/piece-square'
 import { Piece } from '@activepieces/pieces-framework'
 import { JobType, LATEST_JOB_DATA_SCHEMA_VERSION, logger, rejectedPromiseHandler } from '@activepieces/server-shared'
@@ -23,12 +24,14 @@ const appWebhooks: Record<string, Piece> = {
     square,
     'facebook-leads': facebookLeads,
     intercom,
+    bazaar,
 }
 const pieceNames: Record<string, string> = {
     slack: '@activepieces/piece-slack',
     square: '@activepieces/piece-square',
     'facebook-leads': '@activepieces/piece-facebook-leads',
     intercom: '@activepieces/piece-intercom',
+    bazaar: '@activepieces/piece-bazaar',
 }
 
 export const appEventRoutingModule: FastifyPluginAsyncTypebox = async (app) => {
