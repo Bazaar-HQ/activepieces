@@ -73,6 +73,7 @@ export class BazaarSupabaseAuthnHandler extends BaseSecurityHandler {
               displayName: `${principal.sub}'s Project`,
               // @ts-ignore
               platformId: platform?.id,
+              externalId: principal.sub,
             })
             principal.projectId = project.id
             principal.platform = platform
