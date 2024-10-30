@@ -1,50 +1,44 @@
-
-import { createTrigger, TriggerStrategy, PiecePropValueSchema  } from '@activepieces/pieces-framework';
-import { DedupeStrategy, Polling, pollingHelper } from '@activepieces/pieces-common';
-import dayjs from 'dayjs';
-import { bazaarAuth } from '@bazaar/core';
-
-// replace auth with piece auth variable
-const polling: Polling< PiecePropValueSchema<typeof bazaarAuth>, Record<string, never> > = {
-    strategy: DedupeStrategy.TIMEBASED,
-    items: async ({ propsValue, lastFetchEpochMS }) => {
-        // implement the logic to fetch the items
-        const items = [ {id: 1, created_date: '2021-01-01T00:00:00Z'}, {id: 2, created_date: '2021-01-01T00:00:00Z'}];
-        return items.map((item) => ({
-            epochMilliSeconds: dayjs(item.created_date).valueOf(),
-            data: item,
-            }));
-        }
-}
+import { createTrigger, PieceAuth, Property, TriggerStrategy } from '@activepieces/pieces-framework';
 
 export const bazaarEvents = createTrigger({
-// auth: check https://www.activepieces.com/docs/developers/piece-reference/authentication,
-name: 'bazaarEvents',
-displayName: 'Bazaar Events',
-description: '',
-props: {},
-sampleData: {},
-type: TriggerStrategy.POLLING,
-async test(context) {
-    const { store, auth, propsValue } = context;
-    // @ts-ignore
-  return await pollingHelper.test(polling, { store, auth, propsValue });
-},
-async onEnable(context) {
-    const { store, auth, propsValue } = context;
-    // @ts-ignore
-  await pollingHelper.onEnable(polling, { store, auth, propsValue });
-},
+  name: 'bazaarEvents',
+  displayName: 'Bazaar Events',
+  description: '',
+  props: {
+    type: Property.StaticDropdown({
+      displayName: 'Event',
+      // todo add description: 'The type of the item to trigger a webhook',
+      required: true,
+      options: {
+        options: [
+          // todo load events dynamically
+          { label: 'Listing Created', value: 'listing.created' },
+          { label: 'Listing Approved', value: 'listing.approved' },
+          { label: 'Vendor Account Created', value: 'vendor.account.created' },
+          { label: 'User Created', value: 'user.created' }
+        ]
+      }
+    })
+  },
+  sampleData: {},
+  type: TriggerStrategy.APP_WEBHOOK,
+  auth: PieceAuth.None(),
+  requireAuth: false,
+  async onEnable(context) {
+    const externalProjectId = await context.project.externalId();
+    if (!externalProjectId) {
+      throw new Error('External Project ID is undefined!');
+    }
+    context.app.createListeners({
+      events: [context.propsValue['type']],
+      identifierValue: externalProjectId
+    });
+  },
 
-async onDisable(context) {
-    const { store, auth, propsValue } = context;
-  // @ts-ignore
-    await pollingHelper.onDisable(polling, { store, auth, propsValue });
-},
+  async onDisable() {
+  },
 
-async run(context) {
-    const { store, auth, propsValue } = context;
-  // @ts-ignore
-    return await pollingHelper.poll(polling, { store, auth, propsValue });
-},
+  async run(context) {
+    return [context.payload.body];
+  }
 });
