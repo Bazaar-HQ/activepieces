@@ -12,10 +12,10 @@ export const bazaarEvents = createTrigger({
       options: {
         options: [
           // todo load events dynamically
-          { label: 'Listing Created', value: 'listing.created' },
-          { label: 'Listing Approved', value: 'listing.approved' },
-          { label: 'Vendor Account Created', value: 'vendor.account.created' },
-          { label: 'User Created', value: 'user.created' }
+          { label: 'Listing Created', value: 'listings.listings.insert' },
+          { label: 'Listing Updated', value: 'listings.listings.update' },
+          { label: 'Vendor Account Created', value: 'vendors.accounts.insert' },
+          { label: 'User Created', value: 'auth.user.insert' }
         ]
       }
     })
