@@ -12,12 +12,16 @@ export const bazaar = createPiece({
   events: {
     parseAndReply: ({ payload }): ParseEventResponse => {
       const payloadBody = payload.body as {
-        event: string;
-        user_id: string;
+        type: string;
+        data: {
+          record: object,
+          old_record: object,
+          user_id: string
+        }
       };
       return {
-        event: payloadBody?.event,
-        identifierValue: payloadBody?.user_id
+        event: payloadBody?.type,
+        identifierValue: payloadBody?.data?.user_id
       };
     },
     verify: ({ webhookSecret, payload }) => {
