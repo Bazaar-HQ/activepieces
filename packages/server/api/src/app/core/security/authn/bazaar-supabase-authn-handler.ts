@@ -36,12 +36,23 @@ export class BazaarSupabaseAuthnHandler extends BaseSecurityHandler {
         principal.type = PrincipalType.USER
         request.principal = principal
 
+        if(!principal?.app_metadata?.org_id && !principal?.user_metadata?.org_id) {
+          throw new ActivepiecesError({
+            code: ErrorCode.AUTHENTICATION,
+            params: {
+              message: 'missing organization id',
+            },
+          })
+        }
+
+        const orgId = principal?.app_metadata?.org_id ?? principal?.user_metadata?.org_id;
+
         const projectRepo = repoFactory(ProjectEntity)
         const projects = await projectRepo().query(`
             SELECT "project"."id" AS "projectId", project."platformId"
             FROM "project" "project"
                    INNER JOIN "user" "user" ON "user"."id" = project."ownerId"
-            WHERE ("user"."externalId" = '${principal.sub}')
+            WHERE ("user"."externalId" = '${principal.sub}' AND project."externalId" = '${orgId}')
               AND ("project"."deleted" IS NULL)
         `)
         if(Array.isArray(projects) && projects.length) {
@@ -73,7 +84,7 @@ export class BazaarSupabaseAuthnHandler extends BaseSecurityHandler {
               displayName: `${principal.sub}'s Project`,
               // @ts-ignore
               platformId: platform?.id,
-              externalId: principal.sub,
+              externalId: orgId,
             })
             principal.projectId = project.id
             principal.platform = platform

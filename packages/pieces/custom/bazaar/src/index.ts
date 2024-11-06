@@ -16,12 +16,12 @@ export const bazaar = createPiece({
         data: {
           record: object,
           old_record: object,
-          user_id: string
+          org_id: string
         }
       };
       return {
         event: payloadBody?.type,
-        identifierValue: payloadBody?.data?.user_id
+        identifierValue: payloadBody?.data?.org_id
       };
     },
     verify: ({ webhookSecret, payload }) => {
