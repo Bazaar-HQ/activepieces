@@ -1,4 +1,4 @@
-import { ActivepiecesError, ErrorCode, isNil, PrincipalType, PlatformRole } from '@activepieces/shared';
+import { ActivepiecesError, ErrorCode, isNil, PrincipalType, PlatformRole, Project, User } from '@activepieces/shared';
 import { cryptoUtils } from '@activepieces/server-shared'
 import { FastifyRequest } from 'fastify';
 import { BaseSecurityHandler } from '../security-handler';
@@ -33,9 +33,6 @@ export class BazaarSupabaseAuthnHandler extends BaseSecurityHandler {
         const accessToken = this.extractAccessTokenOrThrow(request)
         const principal = await this.extractPrincipal(accessToken)
 
-        principal.type = PrincipalType.USER
-        request.principal = principal
-
         if(!principal?.app_metadata?.org_id && !principal?.user_metadata?.org_id) {
           throw new ActivepiecesError({
             code: ErrorCode.AUTHENTICATION,
@@ -45,49 +42,75 @@ export class BazaarSupabaseAuthnHandler extends BaseSecurityHandler {
           })
         }
 
-        const orgId = principal?.app_metadata?.org_id ?? principal?.user_metadata?.org_id;
+        // NOTE: we trust on the third party service that added org_id to the JWT token
+        const orgId: string = principal?.app_metadata?.org_id ?? principal?.user_metadata?.org_id
+        const userSub: string = principal.sub
 
-        const projectRepo = repoFactory(ProjectEntity)
-        const projects = await projectRepo().query(`
-            SELECT "project"."id" AS "projectId", project."platformId"
-            FROM "project" "project"
-                   INNER JOIN "user" "user" ON "user"."id" = project."ownerId"
-            WHERE ("user"."externalId" = '${principal.sub}' AND project."externalId" = '${orgId}')
-              AND ("project"."deleted" IS NULL)
-        `)
-        if(Array.isArray(projects) && projects.length) {
-            principal.projectId = projects[0].projectId
-            principal.platform = await platformService.getOne(projects[0].platformId)
-        } else {
-            // find platform id
-            const [platform, password] = await Promise.all([
-                platformService.getOldestPlatform(),
-                cryptoUtils.generateRandomPassword()
-            ])
+        // NOTE: we use only one platform in Bazaar project
+        const platform = await platformService.getOldestPlatform()
+
+        if(platform) {
+          const [project, user] = await Promise.all(
+            [
+              projectService.getByPlatformIdAndExternalId({
+              platformId: platform.id,
+              externalId: orgId,
+              }),
+              userService.getByPlatformAndExternalId({
+              platformId: platform.id,
+              externalId: userSub
+              })
+            ]
+          )
+
+          if(user) {
+            principal.id = user.id
+          } else {
+            const password = await cryptoUtils.generateRandomPassword()
+
             // create user
-            const user = await userService.create({
-                email: principal.email,
-                password,
-                verified: true,
-                // @ts-ignore
-                platformId: platform?.id,
-                externalId: principal.sub,
-                platformRole: PlatformRole.MEMBER,
-                firstName: 'NAME',
-                lastName: 'LAST',
-                trackEvents: true,
-                newsLetter: false
-            })
-            // create project
-            const project = await projectService.create({
-              ownerId: user.id,
-              displayName: `${principal.sub}'s Project`,
+            const newUser = await userService.create({
+              email: principal.email,
+              password,
+              verified: true,
               // @ts-ignore
-              platformId: platform?.id,
+              platformId: platform.id,
+              externalId: userSub,
+              platformRole: PlatformRole.MEMBER,
+              firstName: 'NAME',
+              lastName: 'LAST',
+              trackEvents: true,
+              newsLetter: false
+            })
+
+            principal.id = newUser.id
+          }
+
+          if(project) {
+            principal.projectId = project.id
+          } else {
+            // create project
+            const newProject = await projectService.create({
+              ownerId: principal.id,
+              displayName: `${userSub}'s Project`,
+              // @ts-ignore
+              platformId: platform.id,
               externalId: orgId,
             })
-            principal.projectId = project.id
-            principal.platform = platform
+            principal.projectId = newProject.id
+          }
+
+          principal.type = PrincipalType.USER
+          principal.platform = platform
+          request.principal = principal
+        }
+        else {
+          throw new ActivepiecesError({
+            code: ErrorCode.AUTHENTICATION,
+            params: {
+              message: 'missing platform',
+            },
+          })
         }
     }
 
