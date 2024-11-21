@@ -50,7 +50,7 @@ COPY .npmrc package.json package-lock.json ./
 RUN npm ci
 
 RUN npx nx run-many --target=build --projects=server-api --configuration production
-RUN npx nx run-many --target=build --projects=react-ui 
+RUN npx nx run-many --target=build --projects=react-ui
 
 # Install backend production dependencies
 RUN cd dist/packages/server/api && npm install --production --force
@@ -82,7 +82,7 @@ COPY --from=build /usr/src/app/dist/packages/shared/ /usr/src/app/dist/packages/
 
 RUN cd /usr/src/app/dist/packages/server/api/ && npm install --production --force
 
-# 
+#
 # Copy Output files to appropriate directory from build stage
 COPY --from=build /usr/src/app/packages packages
 # Copy frontend files to Nginx document root directory from build stage
